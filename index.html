@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<!-- Welcome to this TypeScript/HTML5 game engine primer. -->
+<html>
+
+    <!-- the head specifies all meta information -->
+    <head>
+
+        <!-- the web document's title -->
+        <title>HTML5 TypeScript MfgGame, (c) 2015 Mayflower GmbH, v. 1.0</title>
+
+        <!-- set the favicon icon -->
+        <link rel="icon"          href="favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+        <!-- use this external stylesheet -->
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+
+        <!-- suppress viewport scalation for touch-devices -->
+        <meta name="viewport" content="width=device-width, height=device-height, user-scalable=no, initial-scale=1" />
+
+        <!-- include all lib js-sources. -->
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/hid/LibKeySystem.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/io/LibImageSystem.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/io/LibSoundSystem.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/io/LibSprite.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/ui/anim/LibAnimation.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/ui/anim/LibAnimationLinear.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/ui/LibCamera.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/ui/LibCanvas.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/ui/LibDrawing.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/ui/LibStringFormat.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/ui/LibUI.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/util/LibCollisionDebug.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/util/LibDebug.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/util/LibMath.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/util/LibMainThread.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/util/LibVersion.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/util/LibCollisionPlan.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/util/geom/LibDimension2D.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/util/geom/LibDirection.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/util/geom/LibMath2D.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/util/geom/LibOffset2D.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/util/geom/LibPoint2D.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/util/geom/LibRect2D.js"></script>
+        <script type="text/javascript" src="src_lib/de/mayflower/lib/util/geom/LibRect2DOwner.js"></script>
+
+        <!-- include all project js-sources. -->
+        <script type="text/javascript" src="src/de/mayflower/mfg/MfgVersion.js"></script>
+        <script type="text/javascript" src="src/de/mayflower/mfg/MfgSettings.js"></script>
+        <script type="text/javascript" src="src/de/mayflower/mfg/MfgDebug.js"></script>
+        <script type="text/javascript" src="src/de/mayflower/mfg/game/MfgGame.js"></script>
+        <script type="text/javascript" src="src/de/mayflower/mfg/game/MfgGameObject.js"></script>
+        <script type="text/javascript" src="src/de/mayflower/mfg/game/MfgGameObjectCollision.js"></script>
+        <script type="text/javascript" src="src/de/mayflower/mfg/game/MfgItem.js"></script>
+        <script type="text/javascript" src="src/de/mayflower/mfg/game/MfgLevel.js"></script>
+        <script type="text/javascript" src="src/de/mayflower/mfg/game/MfgPlayer.js"></script>
+        <script type="text/javascript" src="src/de/mayflower/mfg/game/MfgWall.js"></script>
+        <script type="text/javascript" src="src/de/mayflower/mfg/io/MfgImage.js"></script>
+        <script type="text/javascript" src="src/de/mayflower/mfg/io/MfgSound.js"></script>
+        <script type="text/javascript" src="src/de/mayflower/mfg/io/MfgSprite.js"></script>
+        <script type="text/javascript" src="src/de/mayflower/mfg/Mfg.js"></script>
+
+    </head>
+
+    <!-- the body will be appended with the HTML5 canvas -->
+    <body class="mfg">
+    </body>
+
+</html>
