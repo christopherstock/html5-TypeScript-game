@@ -63,23 +63,25 @@
         *****************************************************************************/
         public tick()
         {
+            //check if an animation is applied
             if ( this.iAnimation != null )
             {
                 //update animation
                 this.iAnimation.tick();
 
+                //move the wall horizontal according to the animation
+                this.moveWithCollisionCheck
+                (
+                    LibDirection.RIGHT,
+                    this.iAnimation.getLastDeltaX()
+                );
 
-
-                //move the wall testwise
-
-                this.moveWithCollisionCheck( LibDirection.RIGHT, 2 );
-
-
-
-
-
-                //re-assign the animation's location
-                //this.iRect.iAnchor = this.iAnimation.iLocation;
+                //move the wall vertical according to the animation
+                this.moveWithCollisionCheck
+                (
+                    LibDirection.DOWN,
+                    this.iAnimation.getLastDeltaY()
+                );
             }
         }
 

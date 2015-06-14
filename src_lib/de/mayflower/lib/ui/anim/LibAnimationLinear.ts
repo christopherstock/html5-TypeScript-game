@@ -7,7 +7,7 @@
     *****************************************************************************/
     class LibAnimationLinear extends LibAnimation
     {
-        /** The anchor. */
+        /** The moving angle. */
         public                  iAngle                          :number                 = 0;
 
         /*****************************************************************************
@@ -29,6 +29,11 @@
         {
 
 
+            this.iLastDeltaX = 2;
+            this.iLastDeltaY = -1; // !
+
+
+/*
             this.iLocation = LibMath2D.sinCosPoint
             (
                 this.iAnchor,
@@ -36,8 +41,8 @@
                 this.iTestTick,
                 this.iTestTick
             );
-
-            ++this.iTestTick;
+*/
+            //++this.iTestTick;
 
 
 
