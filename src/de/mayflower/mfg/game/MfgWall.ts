@@ -70,18 +70,24 @@
                 this.iAnimation.tick();
 
                 //move the wall horizontal according to the animation
-                this.moveWithCollisionCheck
-                (
-                    LibDirection.RIGHT,
-                    this.iAnimation.getLastDeltaX()
-                );
+                var deltaX     = this.iAnimation.getLastDeltaX();
+                var directionX = LibDirection.RIGHT;
+                if ( deltaX < 0 )
+                {
+                    deltaX     = -deltaX;
+                    directionX = LibDirection.LEFT;
+                }
+                this.moveWithCollisionCheck( directionX, deltaX );
 
                 //move the wall vertical according to the animation
-                this.moveWithCollisionCheck
-                (
-                    LibDirection.DOWN,
-                    this.iAnimation.getLastDeltaY()
-                );
+                var deltaY     = this.iAnimation.getLastDeltaY();
+                var directionY = LibDirection.DOWN;
+                if ( deltaY < 0 )
+                {
+                    deltaY     = -deltaY;
+                    directionY = LibDirection.UP;
+                }
+                this.moveWithCollisionCheck( directionY, deltaY );
             }
         }
 

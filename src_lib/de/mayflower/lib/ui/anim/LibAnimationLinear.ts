@@ -29,7 +29,7 @@
         {
 
 
-            this.iLastDeltaX = 2;
+            this.iLastDeltaX = -2;
             this.iLastDeltaY = -1; // !
 
 
