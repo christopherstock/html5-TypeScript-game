@@ -3,7 +3,7 @@
     *   Represents a level.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.6
+    *   @version    0.0.7
     *****************************************************************************/
     class MfgLevel
     {
@@ -58,7 +58,7 @@
         {
             //set fixed positions
             this.iPlayer.iRect.iAnchor.iX = 100;
-            this.iPlayer.iRect.iAnchor.iY = this.iSize.iHeight - this.iPlayer.iRect.iSize.iHeight;
+            this.iPlayer.iRect.iAnchor.iY = this.iSize.iHeight - this.iPlayer.iRect.iSize.iHeight - 100;
         }
 
         /*****************************************************************************
@@ -70,47 +70,68 @@
             this.iWalls =
             [
 
-                new MfgWall( 0,                 -1,                     this.iSize.iWidth,  1,                  false, null ),
-                new MfgWall( 0,                 this.iSize.iHeight,     this.iSize.iWidth,  1,                  false, null ),
-                new MfgWall( -1,                0,                      1,                  this.iSize.iHeight, false, null ),
-                new MfgWall( this.iSize.iWidth, 0,                      1,                  this.iSize.iHeight, false, null ),
+                new MfgWall( 0,                 -1,                     this.iSize.iWidth,  1,                  MfgCollisionPlan.SOLID_ALL, false, null ),
+                new MfgWall( 0,                 this.iSize.iHeight,     this.iSize.iWidth,  1,                  MfgCollisionPlan.SOLID_ALL, false, null ),
+                new MfgWall( -1,                0,                      1,                  this.iSize.iHeight, MfgCollisionPlan.SOLID_ALL, false, null ),
+                new MfgWall( this.iSize.iWidth, 0,                      1,                  this.iSize.iHeight, MfgCollisionPlan.SOLID_ALL, false, null )
 
             ];
 
-            switch ( 2 )
+            switch ( 1 )
             {
                 case 1:
                 {
                     //solid walls
-                    this.iWalls.push( new MfgWall( 455, 1395, 100, 25, false, null ) );
-                    this.iWalls.push( new MfgWall( 555, 1395, 300, 25, false, null ) );
-                    this.iWalls.push( new MfgWall( 955, 1395, 250, 25, false, null ) );
+                    this.iWalls.push( new MfgWall( 455, 1295, 100, 25, MfgCollisionPlan.SOLID_ALL, false, null ) );
+                    this.iWalls.push( new MfgWall( 555, 1295, 300, 25, MfgCollisionPlan.SOLID_ALL, false, null ) );
+                    this.iWalls.push( new MfgWall( 955, 1295, 250, 25, MfgCollisionPlan.SOLID_TOP, false, null ) );
 
                     //reluctant walls
-                    this.iWalls.push( new MfgWall( 305, 1525, 75,  10, true,  null ) );
-                    this.iWalls.push( new MfgWall( 305, 1535, 75,  10, true,  null ) );
-                    this.iWalls.push( new MfgWall( 305, 1545, 75,  10, true,  null ) );
-                    this.iWalls.push( new MfgWall( 305, 1555, 75,  10, true,  null ) );
-                    this.iWalls.push( new MfgWall( 305, 1450, 75,  75, true,  null ) );
-                    this.iWalls.push( new MfgWall( 380, 1390, 75,  75, true,  null ) );
+                    this.iWalls.push( new MfgWall( 305, 1425, 75,  10, MfgCollisionPlan.RELUCTANT,  false, null ) );
+                    this.iWalls.push( new MfgWall( 305, 1435, 75,  10, MfgCollisionPlan.RELUCTANT,  false, null ) );
+                    this.iWalls.push( new MfgWall( 305, 1445, 75,  10, MfgCollisionPlan.RELUCTANT,  false, null ) );
+                    this.iWalls.push( new MfgWall( 305, 1455, 75,  10, MfgCollisionPlan.RELUCTANT,  false, null ) );
+                    this.iWalls.push( new MfgWall( 305, 1350, 75,  75, MfgCollisionPlan.RELUCTANT,  false, null ) );
+                    this.iWalls.push( new MfgWall( 380, 1290, 75,  75, MfgCollisionPlan.RELUCTANT,  false, null ) );
 
                     //small reluctant walls ..
-                    this.iWalls.push( new MfgWall( 0,   1525, 5,   75, true,  null ) );
-                    this.iWalls.push( new MfgWall( 5,   1520, 5,   75, true,  null ) );
-                    this.iWalls.push( new MfgWall( 0,   20,   75,  5,  true,  null ) );
-                    this.iWalls.push( new MfgWall( 0,   30,   75,  5,  true,  null ) );
+                    this.iWalls.push( new MfgWall( 0,   1525, 5,   75, MfgCollisionPlan.RELUCTANT,  false, null ) );
+                    this.iWalls.push( new MfgWall( 5,   1520, 5,   75, MfgCollisionPlan.RELUCTANT,  false, null ) );
+                    this.iWalls.push( new MfgWall( 0,   20,   75,  5,  MfgCollisionPlan.RELUCTANT,  false, null ) );
+                    this.iWalls.push( new MfgWall( 0,   30,   75,  5,  MfgCollisionPlan.RELUCTANT,  false, null ) );
 
                     break;
                 }
 
                 case 2:
                 {
-                    //solid walls
-                    this.iWalls.push( new MfgWall( 200, 1525, 75,  75, false, new LibAnimationLinear( 0 ) ) );
+                    //animated solid wall
+                  //this.iWalls.push( new MfgWall( 200, 1225, 75,  75, false, new LibAnimationLinear( 30, 50, 10, 5 ) ) );
+
+                    this.iWalls.push
+                    (
+                        new MfgWall
+                        (
+                            200, 1225, 75,  75, MfgCollisionPlan.SOLID_ALL, false,
+                            [
+                                //new LibAnimationSwing( 90, 5, 10, 10, 50, 50 ),
+
+                                new LibAnimationLinear( 90, 20, 20, 5 ),
+                                new LibAnimationLinear( 0, 20, 20, 5 )
+                            ]
+                        )
+                    );
 
                     //reluctant walls
-                    this.iWalls.push( new MfgWall( 500, 1550, 50,  50, true,  null ) );
+//                    this.iWalls.push( new MfgWall( 500, 1550, 50,  50, true,  null ) );
 
+                    break;
+                }
+
+                case 3:
+                {
+                    this.iWalls.push( new MfgWall( 250, 1350, 75,  75, MfgCollisionPlan.SOLID_ALL, true,  [ new LibAnimationLinear( 35, 10, 5, 5 ) ] ) );
+                    this.iWalls.push( new MfgWall( 750, 1350, 75,  75, MfgCollisionPlan.SOLID_ALL, false, [ new LibAnimationLinear( 35, 10, 5, 5 ) ] ) );
 
                     break;
                 }
@@ -125,14 +146,15 @@
         private createItems()
         {
             this.iItems = Array<MfgItem>();
-            for ( var i:number = 0; i < MfgSettings.DEBUG_ITEM_COUNT; ++i )
+            for ( var i:number = 0; i < MfgDebugSettings.DEBUG_ITEM_COUNT; ++i )
             {
                 this.iItems.push
                 (
                     new MfgItem
                     (
                         LibMath.getRandomInt( 0, this.iSize.iWidth  - MfgSprite.ITEM_MF_LOGO.iFrameWidth  ),
-                        LibMath.getRandomInt( 0, this.iSize.iHeight - MfgSprite.ITEM_MF_LOGO.iFrameHeight )
+                        LibMath.getRandomInt( 0, this.iSize.iHeight - MfgSprite.ITEM_MF_LOGO.iFrameHeight ),
+                        [ new LibAnimationLinear( 120, 10, 10, 5 ) ]
                     )
                 );
             }
@@ -143,59 +165,62 @@
         /*****************************************************************************
         *   Draws the level.
         *
-        *   @param  camera
+        *   @param  context The 2d drawing context.
+        *   @param  camera  The camera context to use for this drawing operation.
         *****************************************************************************/
-        public draw( camera:LibCamera )
+        public draw( context:CanvasRenderingContext2D, camera:LibCamera )
         {
             //draw bg
-            this.drawLevelBg( camera );
+            this.drawLevelBg( context, camera );
 
             //draw player
-            this.iPlayer.draw( camera );
+            this.iPlayer.draw( context, camera );
 
             //draw items
             for ( var i:number = 0; i < this.iItems.length; ++i )
             {
-                this.iItems[ i ].draw( camera );
+                this.iItems[ i ].draw( context, camera );
             }
             MfgSprite.ITEM_MF_LOGO.nextTick();
 
             //draw walls
             for ( var i:number = 0; i < this.iWalls.length; ++i )
             {
-                this.iWalls[ i ].draw( camera );
+                this.iWalls[ i ].draw( context, camera );
             }
         }
 
         /*****************************************************************************
         *   Draws the bg using parallax scrolling.
         *
-        *   @param  camera
+        *   @param  context The 2d drawing context.
+        *   @param  camera  The camera context to use for this drawing operation.
         *****************************************************************************/
-        private drawLevelBg( camera:LibCamera )
+        private drawLevelBg( context:CanvasRenderingContext2D, camera:LibCamera )
         {
             //draw bg image
-            this.drawParallaxBg( MfgGame.imageSystem.getImage( MfgImage.BG_LAYER_0 ), camera, 0.8 );
+            this.drawParallaxBg( context, camera, MfgGame.imageSystem.getImage( MfgImage.BG_LAYER_0 ), 0.8 );
 
             //draw middle layer
-            this.drawParallaxBg( MfgGame.imageSystem.getImage( MfgImage.BG_LAYER_1 ), camera, 0.6 );
+            this.drawParallaxBg( context, camera, MfgGame.imageSystem.getImage( MfgImage.BG_LAYER_1 ), 0.6 );
         }
 
         /*****************************************************************************
         *   Draws a parallax scrolling bg image.
         *
-        *   @param  image   The image to draw into the bg.
+        *   @param  context The 2d drawing context.
         *   @param  camera  The current camera instance.
+        *   @param  image   The image to draw into the bg.
         *   @param  alpha   The alpha value for the image to draw.
         *****************************************************************************/
-        private drawParallaxBg( image:HTMLImageElement, camera:LibCamera, alpha:number )
+        private drawParallaxBg( context:CanvasRenderingContext2D, camera:LibCamera, image:HTMLImageElement, alpha:number )
         {
             var imgWidth     =     image.width;
             var imgHeight    =     image.height;
 
             LibDrawing.drawImage
             (
-                MfgGame.canvas.getContext(),
+                context,
                 image,
                 0 - ( imgWidth  - MfgGame.canvas.getWidth()  ) * camera.iOffset.iX / ( this.iSize.iWidth  - MfgGame.canvas.getWidth()  ),
                 0 - ( imgHeight - MfgGame.canvas.getHeight() ) * camera.iOffset.iY / ( this.iSize.iHeight - MfgGame.canvas.getHeight() ),
@@ -208,27 +233,37 @@
         *****************************************************************************/
         public render()
         {
-            //animate all walls
-            this.handleWallAnimations();
+            //render all game objects
+            this.renderGameObjects();
 
             //handle player keys
             this.iPlayer.handlePlayerKeys();
 
             //handle gravity
-            if ( !MfgSettings.DEBUG_DISABLE_GRAVITY )
+            if ( !MfgDebugSettings.DEBUG_DISABLE_GRAVITY )
             {
                 this.handleGravity();
             }
         }
 
         /*****************************************************************************
-        *   Handles the animations for all walls.
+        *   Renders all game objects.
         *****************************************************************************/
-        private handleWallAnimations()
+        private renderGameObjects()
         {
+            //player
+            this.iPlayer.render();
+
+            //walls
             for ( var i:number = 0; i < this.iWalls.length; ++i )
             {
-                this.iWalls[ i ].tick();
+                this.iWalls[ i ].render();
+            }
+
+            //items
+            for ( var i:number = 0; i < this.iItems.length; ++i )
+            {
+                this.iItems[ i ].render();
             }
         }
 
@@ -274,37 +309,67 @@
         *   @return An array holding all game objects of the current level.
         *           The own game object is filtered.
         *****************************************************************************/
-        public getAllForeignCollidableGameObjects( movedGameObject:MfgGameObject ):Array<MfgGameObject>
+        public getAllForeignCollidableGameObjects( movingGameObject:MfgGameObject, movingDirection:LibDirection ):Array<MfgGameObject>
         {
             var ret:Array<MfgGameObject> = [];
 
-            //add all walls
-            for ( var i:number = 0; i < this.iWalls.length; ++i )
+            var addWalls:boolean  = false;
+            var addItems:boolean  = false;
+            var addPlayer:boolean = false;
+
+            if ( movingGameObject instanceof MfgPlayer )
             {
-                //skip own game object
-                if ( this.iWalls[ i ] != movedGameObject )
-                {
-                    ret.push( this.iWalls[ i ] );
-                }
+                addWalls = true;
+                addItems = true;
+            }
+            else if ( movingGameObject instanceof MfgWall )
+            {
+                addWalls  = true;
+                addPlayer = true;
+            }
+            else if ( movingGameObject instanceof MfgItem )
+            {
+                addPlayer = true;
             }
 
-            //add all items ( only for the player )
-            if ( movedGameObject instanceof MfgPlayer )
+            //add all walls if desired
+            if ( addWalls )
             {
-                for ( var i:number = 0; i < this.iItems.length; ++i )
+                for ( var i:number = 0; i < this.iWalls.length; ++i )
                 {
-                    //only non-picked items
-                    if ( !this.iItems[ i ].iPickedUp )
+                    //skip own game object
+                    if ( this.iWalls[ i ] != movingGameObject )
                     {
-                        ret.push( this.iItems[ i ] );
+                        ret.push( this.iWalls[ i ] );
                     }
                 }
             }
 
-            //add the player
-            if ( this.iPlayer != movedGameObject )
+            //add all items if desired
+            if ( addItems )
             {
-                ret.push( this.iPlayer );
+                for ( var i:number = 0; i < this.iItems.length; ++i )
+                {
+                    //only non-picked items
+                    if ( !this.iItems[ i ].iDisabled )
+                    {
+                        //skip own game object
+                        if ( this.iItems[ i ] != movingGameObject )
+                        {
+                            ret.push( this.iItems[ i ] );
+                        }
+                    }
+                }
+            }
+
+            //add the player if desired
+            if ( addPlayer )
+            {
+                //skip own game object
+                if ( this.iPlayer != movingGameObject )
+                {
+                    ret.push( this.iPlayer );
+                }
             }
 
             return ret;
@@ -315,10 +380,19 @@
         *****************************************************************************/
         public unsetAllCollisionIndicators():void
         {
-            this.iPlayer.iDebugCollision.unsetCollisionIndicators();
+            //player
+            this.iPlayer.iCollision.iDebugCollision.unsetCollisionIndicators();
+
+            //all walls
             for ( var i:number = 0; i < this.iWalls.length; ++i )
             {
-                this.iWalls[ i ].iDebugCollision.unsetCollisionIndicators();
+                this.iWalls[ i ].iCollision.iDebugCollision.unsetCollisionIndicators();
+            }
+
+            //all items
+            for ( var i:number = 0; i < this.iItems.length; ++i )
+            {
+                this.iItems[ i ].iCollision.iDebugCollision.unsetCollisionIndicators();
             }
         }
     }

@@ -3,7 +3,7 @@
     *   Represents one game character.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.6
+    *   @version    0.0.7
     *****************************************************************************/
     class MfgPlayer extends MfgGameObject
     {
@@ -25,14 +25,16 @@
                     MfgSprite.PLAYER_STAND_RIGHT.iFrameHeight
                 ),
                 MfgSprite.PLAYER_STAND_RIGHT,
+                null,
+                MfgCollisionPlan.RELUCTANT,
                 new LibCollisionDebug
                 (
-                    MfgSettings.DEBUG_DRAW_RECT_PLAYER,
-                    MfgSettings.DEBUG_COLOR_RECT_PLAYER_BORDER,
-                    MfgSettings.DEBUG_COLOR_RECT_PLAYER_FILL,
-                    MfgSettings.DEBUG_COLOR_RECT_COLLISION_INDICATOR,
-                    MfgSettings.DEBUG_COLLISION_INDICATOR_SIZE,
-                    MfgSettings.DEBUG_STROKE_SIZE
+                    MfgDebugSettings.DEBUG_DRAW_RECT_PLAYER,
+                    MfgDebugSettings.DEBUG_COLOR_RECT_PLAYER_BORDER,
+                    MfgDebugSettings.DEBUG_COLOR_RECT_PLAYER_FILL,
+                    MfgDebugSettings.DEBUG_COLOR_COLLISION_INDICATOR,
+                    MfgDebugSettings.DEBUG_SIZE_COLLISION_INDICATOR,
+                    MfgDebugSettings.DEBUG_SIZE_STROKE
                 )
             );
 
@@ -58,7 +60,7 @@
             }
 
             //enable vertical movement for debug purposes
-            if ( MfgSettings.DEBUG_DISABLE_GRAVITY )
+            if ( MfgDebugSettings.DEBUG_DISABLE_GRAVITY )
             {
                 if ( MfgGame.keySystem.isPressed( LibKeySystem.KEY_UP ) )
                 {
@@ -70,15 +72,5 @@
                     this.moveWithCollisionCheck( LibDirection.DOWN, this.iSpeedMove );
                 }
             }
-        }
-
-        /*****************************************************************************
-        *   Delivers the collision plan.
-        *
-        *   @return The collision plan for this game object.
-        *****************************************************************************/
-        public getCollisionPlan():LibCollisionPlan
-        {
-            return LibCollisionPlan.RELUCTANT;
         }
     }

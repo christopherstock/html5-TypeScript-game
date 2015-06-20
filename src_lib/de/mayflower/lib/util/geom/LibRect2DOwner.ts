@@ -3,7 +3,7 @@
     *   Owners of a rectangle should implement this interface.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.6
+    *   @version    0.0.7
     *****************************************************************************/
     interface LibRect2DOwner
     {

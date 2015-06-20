@@ -3,7 +3,7 @@
     *   Loads and manages all desired images.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.6
+    *   @version    0.0.7
     *****************************************************************************/
     class LibImageSystem
     {

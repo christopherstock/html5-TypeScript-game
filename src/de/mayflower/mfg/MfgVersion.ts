@@ -3,12 +3,14 @@
     *   Contains the project history with all current and completed version information.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.6
+    *   @version    0.0.7
     **************************************************************************************/
     class MfgVersion
     {
+        /** The project's version v.0.0.7. */
+        private     static      V_0_0_7                 :LibVersion         = new LibVersion( "0.0.7", "[IN_PROGRESS]", "[IN_PROGRESS]",                "" );
         /** The project's version v.0.0.6. */
-        private     static      V_0_0_6                 :LibVersion         = new LibVersion( "0.0.6", "NEW_FEATURES",  "[IN PROGRESS]",                "" );
+        private     static      V_0_0_6                 :LibVersion         = new LibVersion( "0.0.6", "ANIMATIONS",    "17.06.2015, 22:48:32 GMT+1",   "Support for multiple animations. Create swinging animation. Allow vanishing for all game objects. Allow animations for all game objects ( items! ). Adjusted collision behaviour for different game object types. Invoked move actions when the wall is moving. Outsourced all debug-settings to class MfgDebugSettings. Implemented DEBUG_SHOW_ANCHOR for animations. MfgGameObject::draw - passed the drawing context. Animated walls. Pruned LibCollisionInfo." );
         /** The project's version v.0.0.5. */
         private     static      V_0_0_5                 :LibVersion         = new LibVersion( "0.0.5", "NEW_PHYSICS",   "11.06.2015, 23:47:27 GMT+1",   "Completed 1px-collision system. Clipped debug-collision-indicator-size to width or height. Fixed the moving bug if multiple reluctant blocks are pushed. Fixed reluctant chained collision bugs. Improved debug log output for collision system. Improved physical engine for pushing paired reluctant blocks with different lines by ORDERING the walls according to their distance. Fixed physical bug on pushing a reluctant block to the wall. Outsourced 'getAllForeignCollidableGameObjects' to MfgLevel. Fixed reluctant walls being able to pick up items. Replaced 'handleItemCollisions()' and 'isReluctant()' with different LibCollisionPlans. MfgGameObjectDebug to lib. MfgCamera to lib. Fixed physical bug on pushing a reluctant while pushing a solid wall. CLIP the collision information to only one single edge ( moving direction! ) Outsourced collision handling code to MfgGameObjectCollision. Solved pushing reluctant blocks. Basics for reluctant walls. Added animation system for walls. Move all debug information for the game object into a separate class. Improve collision debug indication into all four directions? Default level bounding walls. Set player startup-position on lowest level position." );
         /** The project's version v.0.0.4. */
@@ -21,5 +23,5 @@
         private     static      V_0_0_1                 :LibVersion         = new LibVersion( "0.0.1", "GIRLSDAY",      "30.04.2015, 17:18:34 GMT+1",   "Solved module usage. Simplified file-references/import-system via _references.ts. Refactor MfgPlayer. Implemented suitable images. Player now manages a sprite instead of an image. Reimplemented the Sprite system. Pruned block class. Implement horizontal and vertical scrolling. Improve parallax scrolling for 2nd background. Extract parallax scrolling to function in order to support various bg layers. Converted all classes to TypeScript." );
 
         /** The project's current version. */
-        public      static      CURRENT_VERSION         :LibVersion         = MfgVersion.V_0_0_6;
+        public      static      CURRENT_VERSION         :LibVersion         = MfgVersion.V_0_0_7;
     }

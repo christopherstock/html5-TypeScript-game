@@ -3,20 +3,18 @@
     *   Represents an item that can be picked up.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.6
+    *   @version    0.0.7
     *****************************************************************************/
     class MfgItem extends MfgGameObject
     {
-        /** Flags picked up state. */
-        public                      iPickedUp   :boolean                        = false;
-
         /*****************************************************************************
         *   Creates a new item.
         *
-        *   @param  aX      X position.
-        *   @param  aY      Y position.
+        *   @param  aX          X position.
+        *   @param  aY          Y position.
+        *   @param  aAnimations The animation for this item. May be <code>null</code> if no animation is requested.
         *****************************************************************************/
-        public constructor( aX:number, aY:number )
+        public constructor( aX:number, aY:number, aAnimations:Array<LibAnimation> )
         {
             super
             (
@@ -28,14 +26,16 @@
                     MfgSprite.ITEM_MF_LOGO.iFrameHeight
                 ),
                 MfgSprite.ITEM_MF_LOGO,
+                aAnimations,
+                MfgCollisionPlan.VANISHING,
                 new LibCollisionDebug
                 (
-                    MfgSettings.DEBUG_DRAW_RECT_ITEM,
-                    MfgSettings.DEBUG_COLOR_RECT_ITEM_BORDER,
-                    MfgSettings.DEBUG_COLOR_RECT_ITEM_FILL,
-                    MfgSettings.DEBUG_COLOR_RECT_ITEM_FILL,
-                    MfgSettings.DEBUG_COLLISION_INDICATOR_SIZE,
-                    MfgSettings.DEBUG_STROKE_SIZE
+                    MfgDebugSettings.DEBUG_DRAW_RECT_ITEM,
+                    MfgDebugSettings.DEBUG_COLOR_RECT_ITEM_BORDER,
+                    MfgDebugSettings.DEBUG_COLOR_RECT_ITEM_FILL,
+                    MfgDebugSettings.DEBUG_COLOR_COLLISION_INDICATOR,
+                    MfgDebugSettings.DEBUG_SIZE_COLLISION_INDICATOR,
+                    MfgDebugSettings.DEBUG_SIZE_STROKE
                 )
             );
         }
@@ -43,20 +43,21 @@
         /*****************************************************************************
         *   Draws this sprite for the specified camera context.
         *
+        *   @param  context The 2d drawing context.
         *   @param  camera  The camera context to use for this drawing operation.
         *****************************************************************************/
-        public draw( camera:LibCamera )
+        public draw( context:CanvasRenderingContext2D, camera:LibCamera )
         {
 /*
-            if ( this.iPickedUp  )
+            if ( this.iDisabled  )
             {
                 this.iAlpha -= 0.07;
                 if ( this.iAlpha < 0.0 ) this.iAlpha = 0.0;
             }
 */
-            if ( !this.iPickedUp )
+            if ( !this.iDisabled )
             {
-                super.draw( camera );
+                super.draw( context, camera );
             }
         }
 
@@ -65,21 +66,11 @@
         *****************************************************************************/
         public vanish():void
         {
-            if ( !this.iPickedUp )
+            if ( !this.iDisabled )
             {
-                this.iPickedUp = true;
+                super.vanish();
 
-                if ( !MfgSettings.DEBUG_MUTE ) MfgGame.soundSystem.playSound( MfgSound.SOUND_FX_BLING );
+                if ( !MfgDebugSettings.DEBUG_DISABLE_SOUNDS ) MfgGame.soundSystem.playSound( MfgSound.SOUND_FX_BLING );
             }
-        }
-
-        /*****************************************************************************
-        *   Delivers the collision plan.
-        *
-        *   @return The collision plan for this game object.
-        *****************************************************************************/
-        public getCollisionPlan():LibCollisionPlan
-        {
-            return LibCollisionPlan.VANISHING;
         }
     }

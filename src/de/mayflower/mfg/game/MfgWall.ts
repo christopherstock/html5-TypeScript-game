@@ -3,26 +3,36 @@
     *   Represents a colliding wall.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.6
+    *   @version    0.0.7
     *****************************************************************************/
     class MfgWall extends MfgGameObject
     {
-        /** Specifies if this wall is reluctant on collisions. */
-        private                     iReluctant              :boolean                        = false;
+        /** All game objects being stuck onto the top of this wall. */
+        public                  iTopStuckedGameObjects:Array<MfgGameObject>             = null;
+        /** Specifies if this wall has a sticky top that can stick on other reluctant game objects. */
+        public                  iStickyTop:boolean                                      = false;
 
         /*****************************************************************************
         *   Creates a wall.
         *
-        *   @param  aX          Location X.
-        *   @param  aY          Location Y.
-        *   @param  aWidth      Wall width.
-        *   @param  aHeight     Wall height.
-        *   @param  aReluctant  Specifies if this wall should submit collisions.
-        *   @param  aAnimation  The animation for this wall.
-        *                       May be <code>null</code> if no animation is requested.
-        *                       TODO make class LibAnimationNone
+        *   @param  aX              Location X.
+        *   @param  aY              Location Y.
+        *   @param  aWidth          Wall width.
+        *   @param  aHeight         Wall height.
+        *   @param  aCollisionPlan  Specifies this wall's behaviour on solving collisions.
+        *   @param  aStickyTop      Specifies if this wall's top is sticky.
+        *   @param  aAnimations     The animation for this wall. May be <code>null</code> if no animation is requested.
         *****************************************************************************/
-        public constructor( aX:number, aY:number, aWidth:number, aHeight:number, aReluctant:boolean, aAnimation:LibAnimation )
+        public constructor
+        (
+            aX:number,
+            aY:number,
+            aWidth:number,
+            aHeight:number,
+            aCollisionPlan:MfgCollisionPlan,
+            aStickyTop:boolean,
+            aAnimations:Array<LibAnimation>
+        )
         {
             super
             (
@@ -34,70 +44,26 @@
                     aHeight
                 ),
                 null,
+                aAnimations,
+                aCollisionPlan,
                 new LibCollisionDebug
                 (
-                    MfgSettings.DEBUG_DRAW_RECT_WALL,
-                    ( aReluctant ? MfgSettings.DEBUG_COLOR_RECT_WALL_RELUCTANT_BORDER : MfgSettings.DEBUG_COLOR_RECT_WALL_SOLID_BORDER ),
-                    MfgSettings.DEBUG_COLOR_RECT_WALL_FILL,
-                    MfgSettings.DEBUG_COLOR_RECT_COLLISION_INDICATOR,
-                    MfgSettings.DEBUG_COLLISION_INDICATOR_SIZE,
-                    MfgSettings.DEBUG_STROKE_SIZE
+                    MfgDebugSettings.DEBUG_DRAW_RECT_WALL,
+                    (
+                            aCollisionPlan == MfgCollisionPlan.RELUCTANT
+                        ?   MfgDebugSettings.DEBUG_COLOR_RECT_WALL_RELUCTANT_BORDER
+                        :
+                                aCollisionPlan == MfgCollisionPlan.SOLID_ALL
+                            ?   MfgDebugSettings.DEBUG_COLOR_RECT_WALL_SOLID_ALL_BORDER
+                            :   MfgDebugSettings.DEBUG_COLOR_RECT_WALL_SOLID_TOP_BORDER
+                    ),
+                    MfgDebugSettings.DEBUG_COLOR_RECT_WALL_FILL,
+                    MfgDebugSettings.DEBUG_COLOR_COLLISION_INDICATOR,
+                    MfgDebugSettings.DEBUG_SIZE_COLLISION_INDICATOR,
+                    MfgDebugSettings.DEBUG_SIZE_STROKE
                 )
             );
 
-            this.iReluctant = aReluctant;
-            this.iAnimation = aAnimation;
-
-            //set anchor for the animation if an animation is specified
-            if ( this.iAnimation != null )
-            {
-                this.iAnimation.reset
-                (
-                    this.iRect.iAnchor
-                );
-            }
-        }
-
-        /*****************************************************************************
-        *   Being invoked each tick, this method animates the wall.
-        *****************************************************************************/
-        public tick()
-        {
-            //check if an animation is applied
-            if ( this.iAnimation != null )
-            {
-                //update animation
-                this.iAnimation.tick();
-
-                //move the wall horizontal according to the animation
-                var deltaX     = this.iAnimation.getLastDeltaX();
-                var directionX = LibDirection.RIGHT;
-                if ( deltaX < 0 )
-                {
-                    deltaX     = -deltaX;
-                    directionX = LibDirection.LEFT;
-                }
-                this.moveWithCollisionCheck( directionX, deltaX );
-
-                //move the wall vertical according to the animation
-                var deltaY     = this.iAnimation.getLastDeltaY();
-                var directionY = LibDirection.DOWN;
-                if ( deltaY < 0 )
-                {
-                    deltaY     = -deltaY;
-                    directionY = LibDirection.UP;
-                }
-                this.moveWithCollisionCheck( directionY, deltaY );
-            }
-        }
-
-        /*****************************************************************************
-        *   Delivers the collision plan.
-        *
-        *   @return The collision plan for this game object.
-        *****************************************************************************/
-        public getCollisionPlan():LibCollisionPlan
-        {
-            return ( this.iReluctant ? LibCollisionPlan.RELUCTANT : LibCollisionPlan.SOLID );
+            this.iStickyTop = aStickyTop;
         }
     }

@@ -3,14 +3,14 @@
     *   Manages all debug information for one game object.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.6
+    *   @version    0.0.7
     *****************************************************************************/
     class LibCollisionDebug
     {
         /** Flags if the debug rectangle should be drawn each tick. */
         private         iDrawRect                  :boolean                        = false;
         /** The stroke color for the debug rect. */
-        private         iRectColorStroke            :string                         = null;
+        public          iRectColorStroke            :string                         = null;
         /** The fill color for the debug rect. */
         private         iRectColorFill              :string                         = null;
         /** The fill color for the colliding debug rect. */

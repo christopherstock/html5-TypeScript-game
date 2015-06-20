@@ -3,7 +3,7 @@
     *   Manages the game logic.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.6
+    *   @version    0.0.7
     *****************************************************************************/
     class MfgGame
     {
@@ -18,17 +18,21 @@
         /** The current active level instance. */
         public          static          level               :MfgLevel                       = null;
         /** The game loop mechanism. */
-        public          static          mainThread          :LibMainThread                  = null;
+        private         static          mainThread          :LibMainThread                  = null;
         /** The camera being used. */
-        public          static          camera              :LibCamera                      = null;
+        private         static          camera              :LibCamera                      = null;
 
         /*****************************************************************************
         *   Inits this app from scratch.
         *****************************************************************************/
         public static init()
         {
+            //set document title
+            document.title = MfgSettings.TITLE;
+
             //init canvas and append it's tag to the HTML page body
-            MfgGame.canvas = new LibCanvas(
+            MfgGame.canvas = new LibCanvas
+            (
                 MfgSettings.CANVAS_WIDTH,
                 MfgSettings.CANVAS_HEIGHT,
                 MfgDebug.canvas
@@ -39,7 +43,8 @@
             MfgGame.keySystem = new LibKeySystem( MfgDebug.key );
 
             //load all images
-            MfgGame.imageSystem = new LibImageSystem(
+            MfgGame.imageSystem = new LibImageSystem
+            (
                 MfgImage.FILE_NAMES,
                 MfgGame.initWhenImagesAreComplete,
                 MfgDebug.imageLoader
@@ -59,7 +64,7 @@
             MfgGame.soundSystem = new LibSoundSystem(
                 MfgSound.FILE_NAMES
             );
-            if ( !MfgSettings.DEBUG_MUTE ) MfgGame.soundSystem.playSound( MfgSound.SOUND_BG_STICKERBUSH_SYMPHONY );
+            if ( !MfgDebugSettings.DEBUG_DISABLE_SOUNDS ) MfgGame.soundSystem.playSound( MfgSound.SOUND_BG_STICKERBUSH_SYMPHONY );
 
             //init a new level
             MfgGame.level = new MfgLevel();
@@ -107,7 +112,7 @@
                 MfgGame.level.getSize().iHeight,
                 MfgGame.canvas.getWidth(),
                 MfgGame.canvas.getHeight(),
-                MfgGame.level.getPlayer().iRect
+                MfgGame.level.getPlayer().getRect()
             );
 
             //clear screen
@@ -118,6 +123,6 @@
             );
 
             //draw level
-            MfgGame.level.draw( MfgGame.camera );
+            MfgGame.level.draw( MfgGame.canvas.getContext(), MfgGame.camera );
         }
     }

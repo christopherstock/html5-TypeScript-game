@@ -3,41 +3,57 @@
     *   Defines all shared attributes for game objects.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.6
+    *   @version    0.0.7
     *****************************************************************************/
     class MfgGameObject implements LibRect2DOwner
     {
         /** The bounding rect. */
         public          iRect                       :LibRect2D                      = null;
-
         /** The sprite representation. */
         public          iSprite                     :LibSprite                      = null;
-
-        /** Current translucency for the sprite. */
-        public          iAlpha                      :number                         = 1.0;
-
-        /** The collision debug object. */
-        public          iDebugCollision             :LibCollisionDebug             = null;
-
         /** The animation to affect onto this wall. */
-        public          iAnimation                  :LibAnimation                   = null;
+        public          iAnimations                 :Array<LibAnimation>            = null;
+        /** The collision plan specifies how to react on being collided. */
+        private         iCollisionPlan              :MfgCollisionPlan               = null;
 
         /** The collision object. */
         public          iCollision                  :MfgGameObjectCollision         = null;
+        /** Current translucency for the sprite. */
+        public          iAlpha                      :number                         = 1.0;
+        /** Flags disabled state. */
+        public          iDisabled                   :boolean                        = false;
 
         /*****************************************************************************
         *   Creates a new game object.
         *
-        *   @param  aRect       A bounding rect.
-        *   @param  aSprite     The graphical representation.
-        *   @param  aDebug      The debug context.
+        *   @param  aRect           A bounding rect.
+        *   @param  aSprite         The graphical representation.
+        *   @param  aAnimations     The animation for this wall. May be <code>null</code> if no animation is requested.
+        *   @param  aCollisionPlan  The collision plan for this game object.
+        *   @param  aDebugCollision The collision-debug context.
         *****************************************************************************/
-        public constructor( aRect:LibRect2D, aSprite:LibSprite, aDebug:LibCollisionDebug )
+        public constructor
+        (
+            aRect:LibRect2D,
+            aSprite:LibSprite,
+            aAnimations:Array<LibAnimation>,
+            aCollisionPlan:MfgCollisionPlan,
+            aDebugCollision:LibCollisionDebug
+        )
         {
             this.iRect           = aRect;
             this.iSprite         = aSprite;
-            this.iDebugCollision = aDebug;
-            this.iCollision      = new MfgGameObjectCollision( this );
+            this.iAnimations     = ( aAnimations == null ? [] : aAnimations );
+            this.iCollisionPlan  = aCollisionPlan;
+
+            //set the collision object
+            this.iCollision      = new MfgGameObjectCollision( this, aDebugCollision );
+
+            //set the anchor for the animation if an animation is specified
+            for ( var i:number = 0; i < this.iAnimations.length; ++i )
+            {
+                this.iAnimations[ i ].reset( this.iRect.iAnchor );
+            }
         }
 
         /*****************************************************************************
@@ -55,9 +71,9 @@
         *
         *   @return The collision plan for this game object.
         *****************************************************************************/
-        public getCollisionPlan():LibCollisionPlan
+        public getCollisionPlan():MfgCollisionPlan
         {
-            return null;
+            return this.iCollisionPlan;
         }
 
         /*****************************************************************************
@@ -65,6 +81,12 @@
         *****************************************************************************/
         public vanish():void
         {
+            if ( !this.iDisabled )
+            {
+                this.iDisabled = true;
+
+                if ( !MfgDebugSettings.DEBUG_DISABLE_SOUNDS ) MfgGame.soundSystem.playSound( MfgSound.SOUND_FX_BLING );
+            }
         }
 
         /*****************************************************************************
@@ -78,18 +100,42 @@
         }
 
         /*****************************************************************************
+        *   Being invoked each tick, this method renders the game object.
+        *****************************************************************************/
+        public render()
+        {
+            //check if an animation is applied
+            for ( var i:number = 0; i < this.iAnimations.length; ++i )
+            {
+                //update animation
+                this.iAnimations[ i ].render();
+
+                //move the wall horizontal according to the animation
+                var deltaX     = this.iAnimations[ i ].getLastDeltaX();
+                var directionX = this.iAnimations[ i ].getLastMovementDirectionX();
+                this.moveWithCollisionCheck( directionX, deltaX );
+
+                //move the wall vertical according to the animation
+                var deltaY     = this.iAnimations[ i ].getLastDeltaY();
+                var directionY = this.iAnimations[ i ].getLastMovementDirectionY();
+                this.moveWithCollisionCheck( directionY, deltaY );
+            }
+        }
+
+        /*****************************************************************************
         *   Draws this sprite for the specified camera context.
         *
+        *   @param  context The 2d drawing context.
         *   @param  camera  The camera context to use for this drawing operation.
         *****************************************************************************/
-        public draw( camera:LibCamera )
+        public draw( context:CanvasRenderingContext2D, camera:LibCamera )
         {
             //draw sprite if specified and desired
-            if ( !MfgSettings.DEBUG_HIDE_SPRITES && this.iSprite != null )
+            if ( !MfgDebugSettings.DEBUG_DISABLE_SPRITES && this.iSprite != null )
             {
                 this.iSprite.draw
                 (
-                    MfgGame.canvas.getContext(),
+                    context,
                     this.iRect.iAnchor.iX - camera.iOffset.iX,
                     this.iRect.iAnchor.iY - camera.iOffset.iY,
                     this.iAlpha
@@ -97,7 +143,34 @@
             }
 
             //draw debug context
-            this.iDebugCollision.drawDebugRect( MfgGame.canvas.getContext(), camera, this.iRect );
+            this.iCollision.iDebugCollision.drawDebugRect( context, camera, this.iRect );
+
+            //draw debug animation anchor
+            if ( MfgDebugSettings.DEBUG_DRAW_ANIMATION_ANCHORS )
+            {
+                for ( var i:number = 0; i < this.iAnimations.length; ++i )
+                {
+                    LibDrawing.strokeLine
+                    (
+                        context,
+                        this.iAnimations[ i ].iAnchor.iX - camera.iOffset.iX - MfgDebugSettings.DEBUG_SIZE_ANIMATION_ANCHOR,
+                        this.iAnimations[ i ].iAnchor.iY - camera.iOffset.iY - MfgDebugSettings.DEBUG_SIZE_ANIMATION_ANCHOR,
+                        this.iAnimations[ i ].iAnchor.iX - camera.iOffset.iX + MfgDebugSettings.DEBUG_SIZE_ANIMATION_ANCHOR,
+                        this.iAnimations[ i ].iAnchor.iY - camera.iOffset.iY + MfgDebugSettings.DEBUG_SIZE_ANIMATION_ANCHOR,
+                        MfgDebugSettings.DEBUG_COLOR_ANCHORS
+                    );
+
+                    LibDrawing.strokeLine
+                    (
+                        context,
+                        this.iAnimations[ i ].iAnchor.iX - camera.iOffset.iX - MfgDebugSettings.DEBUG_SIZE_ANIMATION_ANCHOR,
+                        this.iAnimations[ i ].iAnchor.iY - camera.iOffset.iY + MfgDebugSettings.DEBUG_SIZE_ANIMATION_ANCHOR,
+                        this.iAnimations[ i ].iAnchor.iX - camera.iOffset.iX + MfgDebugSettings.DEBUG_SIZE_ANIMATION_ANCHOR,
+                        this.iAnimations[ i ].iAnchor.iY - camera.iOffset.iY - MfgDebugSettings.DEBUG_SIZE_ANIMATION_ANCHOR,
+                        MfgDebugSettings.DEBUG_COLOR_ANCHORS
+                    );
+                }
+            }
         }
 
         /*****************************************************************************
@@ -109,10 +182,30 @@
         *****************************************************************************/
         public moveWithCollisionCheck( movingDirection:LibDirection, delta:number )
         {
+            //gather all foreign game objects that should be capable of collisions
+            var gameObjects:Array<LibRect2DOwner> = MfgGame.level.getAllForeignCollidableGameObjects(  this, movingDirection );
+
             for ( var i:number = 0; i < delta; ++i )
             {
+                //move this object
                 this.move( movingDirection );
-                if ( !this.iCollision.handleCollisions( movingDirection ) )
+/*
+                //move sticky objects too
+                if ( this instanceof MfgWall )
+                {
+                    var thisWall:MfgWall = <MfgWall>this;
+                    if ( thisWall.iTopStuckedGameObjects != null )
+                    {
+                        for ( var i:number = 0; i < thisWall.iTopStuckedGameObjects.length; ++i )
+                        {
+                            //thisWall.iTopStuckedGameObjects[ i ].moveWithCollisionCheck( movingDirection, 1 );
+                            thisWall.iTopStuckedGameObjects[ i ].move( movingDirection );
+                        }
+                    }
+                }
+*/
+                //handle collisions and take back this objects if unsolved collisions remain
+                if ( !this.iCollision.handleCollisions( movingDirection, gameObjects ) )
                 {
                     this.moveBack( movingDirection );
                     return;

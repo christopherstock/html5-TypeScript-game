@@ -3,21 +3,25 @@
     *   Handles the collisions for game objects.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.6
+    *   @version    0.0.7
     *****************************************************************************/
     class MfgGameObjectCollision
     {
         /** The game object that owns this collision object. */
         private                 iParentGameObject           :MfgGameObject              = null;
+        /** The collision debug object. */
+        public                  iDebugCollision             :LibCollisionDebug          = null;
 
         /*****************************************************************************
         *   Creates the collision scheme for a game object.
         *
         *   @param  aParentGameObject The game object to handle all collisions for.
+        *   @param  aDebugCollision   The collision-debug context.
         *****************************************************************************/
-        public constructor( aParentGameObject:MfgGameObject )
+        public constructor( aParentGameObject:MfgGameObject, aDebugCollision:LibCollisionDebug )
         {
             this.iParentGameObject = aParentGameObject;
+            this.iDebugCollision   = aDebugCollision;
         }
 
         /*****************************************************************************
@@ -25,14 +29,12 @@
         *   on having moved into the specified direction.
         *
         *   @param  movingDirection The movement direction that leads to this collision check.
+        *   @param  gameObjects     All game-objects that are capable for collision and will therefore be checked.
         *   @return                 <code>true</code> if this game-object is free of collisions now.
         *                           Otherwise <code>false</code>.
         *****************************************************************************/
-        public handleCollisions( movingDirection:LibDirection ):boolean
+        public handleCollisions( movingDirection:LibDirection, gameObjects:Array<LibRect2DOwner> ):boolean
         {
-            //gather all foreign game objects
-            var gameObjects:Array<LibRect2DOwner>      = MfgGame.level.getAllForeignCollidableGameObjects(  this.iParentGameObject );
-
             //calculate all colliding rects
             var collidingObjects:Array<LibRect2DOwner> = this.iParentGameObject.getRect().getCollidingRects( gameObjects );
 
@@ -48,11 +50,17 @@
                     +   "collidingObjects " + "[" + collidingObjects.length + "]"
                 );
 
-                //set debug collision indicator for this moving direction
-                this.iParentGameObject.iDebugCollision.setCollisionIndicator( movingDirection );
+                //check if this collision can be solved
+                var collisionSolved:boolean = this.solveCollision( collidingObjects, movingDirection )
+
+                //set the debug collision indicator if the collision could not be solved
+                if ( !collisionSolved )
+                {
+                    this.iDebugCollision.setCollisionIndicator( movingDirection );
+                }
 
                 //solve this collision
-                return this.solveCollision( collidingObjects, movingDirection );
+                return collisionSolved;
             }
 
             return true;
@@ -68,11 +76,19 @@
         *****************************************************************************/
         private solveCollision( collidingObjects:Array<LibRect2DOwner>, movingDirection:LibDirection ):boolean
         {
+            //solve the collision by VANISHING this game object if this is a VANISHING game object
+            if ( this.iParentGameObject.getCollisionPlan() == MfgCollisionPlan.VANISHING )
+            {
+                this.iParentGameObject.vanish();
+
+                return true;
+            }
+
             //browse all colliding VANISHING game objects
             for ( var i:number = 0; i < collidingObjects.length; ++i )
             {
                 var collidingGameObject:MfgGameObject = <MfgGameObject>collidingObjects[ i ];
-                if ( collidingGameObject.getCollisionPlan() == LibCollisionPlan.VANISHING )
+                if ( collidingGameObject.getCollisionPlan() == MfgCollisionPlan.VANISHING )
                 {
                     MfgDebug.collision.log( " solving: VANISHING wall will vanish" );
 
@@ -85,9 +101,38 @@
             for ( var i:number = 0; i < collidingObjects.length; ++i )
             {
                 var collidingGameObject:MfgGameObject = <MfgGameObject>collidingObjects[ i ];
-                if ( collidingGameObject.getCollisionPlan() == LibCollisionPlan.SOLID )
+/*
+                //STICK this game object to the top if the movement is DOWN and this is a STICKY WALL
+                if
+                (
+                        movingDirection == LibDirection.DOWN
+                    &&  collidingGameObject instanceof MfgWall
+                )
                 {
-                    MfgDebug.collision.log( " solving: SOLID wall will DENY collision solve" );
+                    var collidingWall:MfgWall = <MfgWall>collidingGameObject;
+                    if ( collidingWall.iStickyTop )
+                    {
+                        collidingWall.iTopStuckedGameObjects = [ this.iParentGameObject ];
+                        MfgDebug.stickyWalls.log( "This object is getting STUCK to this colliding wall!" );
+                   }
+                }
+*/
+                //SOLID_ALL objects will deny this collision solve
+                if ( collidingGameObject.getCollisionPlan() == MfgCollisionPlan.SOLID_ALL )
+                {
+                    MfgDebug.collision.log( " solving: SOLID_ALL wall will DENY collision solve" );
+                    return false;
+                }
+
+                //SOLID_TOP objects will deny this collision solve if the movement is DOWN and the game objects collides this object's TOP LINE
+                if
+                (
+                        collidingGameObject.getCollisionPlan() == MfgCollisionPlan.SOLID_TOP
+                    &&  movingDirection == LibDirection.DOWN
+                    &&  this.iParentGameObject.getRect().iAnchor.iY + this.iParentGameObject.getRect().iSize.iHeight == collidingGameObject.getRect().iAnchor.iY + 1
+                )
+                {
+                    MfgDebug.collision.log( " solving: SOLID_TOP wall will DENY collision solve" );
                     return false;
                 }
             }
@@ -98,17 +143,18 @@
             for ( var i:number = 0; i < collidingObjects.length; ++i )
             {
                 var collidingGameObject:MfgGameObject = <MfgGameObject>collidingObjects[ i ];
-                if ( collidingGameObject.getCollisionPlan() == LibCollisionPlan.RELUCTANT )
+                if ( collidingGameObject.getCollisionPlan() == MfgCollisionPlan.RELUCTANT )
                 {
                     MfgDebug.collision.log( " solving: RELUCTANT wall will be pushed" );
 
-                    //push the wall
+                    //push this game object
                     collidingGameObject.move( movingDirection );
 
-                    //handle the collisions for the colliding wall
-                    var collisionFree:boolean = collidingGameObject.iCollision.handleCollisions( movingDirection );
+                    //gather all foreign game objects that should be capable of collisions and handle collisions for this colliding game object
+                    var gameObjects:Array<LibRect2DOwner> = MfgGame.level.getAllForeignCollidableGameObjects( collidingGameObject, movingDirection );
+                    var collisionFree:boolean             = collidingGameObject.iCollision.handleCollisions( movingDirection, gameObjects );
 
-                    MfgDebug.collision.log( "  RELUCTANT wall is collision free [" + collisionFree + "]" );
+                    MfgDebug.collision.log( "  RELUCTANT game object is collision free [" + collisionFree + "]" );
 
                     if ( !collisionFree )
                     {
@@ -124,7 +170,7 @@
                 for ( var i:number = 0; i < collidingObjects.length; ++i )
                 {
                     var collidingGameObject:MfgGameObject = <MfgGameObject>collidingObjects[ i ];
-                    if ( collidingGameObject.getCollisionPlan() == LibCollisionPlan.RELUCTANT )
+                    if ( collidingGameObject.getCollisionPlan() == MfgCollisionPlan.RELUCTANT )
                     {
                         MfgDebug.collision.log( " solving: RELUCTANT wall will be RESET" );
 

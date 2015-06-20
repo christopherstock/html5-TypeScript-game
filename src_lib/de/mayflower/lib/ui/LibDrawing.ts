@@ -3,7 +3,7 @@
     *   Offers independent drawing functionality for the canvas.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.6
+    *   @version    0.0.7
     *****************************************************************************/
     class LibDrawing
     {
@@ -27,6 +27,27 @@
         }
 
         /*****************************************************************************
+        *   Strokes a line with the specified points color and size.
+        *
+        *   @param  ctx         The rendering context.
+        *   @param  x1          The start point's x.
+        *   @param  y1          The start point's y.
+        *   @param  x2          The end point's x.
+        *   @param  y2          The end point's y.
+        *   @param  col         A stroke color.
+        *****************************************************************************/
+        public static strokeLine( ctx:CanvasRenderingContext2D, x1:number, y1:number, x2:number, y2:number, col:string )
+        {
+            ctx.strokeStyle = col;
+            ctx.lineWidth   = 1;
+
+            ctx.beginPath();
+            ctx.moveTo( x1, y1 );
+            ctx.lineTo( x2, y2 );
+            ctx.stroke();
+        }
+
+        /*****************************************************************************
         *   Draws a rect's stroke with the specified dimensions and color.
         *
         *   @param  ctx         The rendering context.
@@ -40,6 +61,7 @@
         public static strokeRect( ctx:CanvasRenderingContext2D, x:number, y:number, width:number, height:number, col:string, strokeSize:number )
         {
             ctx.fillStyle = col;
+
             ctx.fillRect( x,                      y,                       width,      strokeSize );
             ctx.fillRect( x,                      y,                       strokeSize, height     );
             ctx.fillRect( x,                      y + height - strokeSize, width,      strokeSize );

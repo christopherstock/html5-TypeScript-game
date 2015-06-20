@@ -3,16 +3,10 @@
     *   The key system that manages all pressed keys.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.6
+    *   @version    0.0.7
     *****************************************************************************/
     class LibKeySystem
     {
-        /** The keycode that represents the 'ENTER' key. */
-        public      static  KEY_ENTER       :number                             = 13;
-        /** The keycode that represents the 'ESCAPE' key. */
-        public      static  KEY_ESCAPE      :number                             = 27;
-        /** The keycode that represents the 'SPACE' key. */
-        public      static  KEY_SPACE       :number                             = 32;
         /** The keycode that represents the 'ARROW LEFT' key. */
         public      static  KEY_LEFT        :number                             = 37;
         /** The keycode that represents the 'ARROW UP' key. */
@@ -21,6 +15,13 @@
         public      static  KEY_RIGHT       :number                             = 39;
         /** The keycode that represents the 'ARROW DOWN' key. */
         public      static  KEY_DOWN        :number                             = 40;
+
+        /** The keycode that represents the 'ENTER' key. */
+        public      static  KEY_ENTER       :number                             = 13;
+        /** The keycode that represents the 'ESCAPE' key. */
+        public      static  KEY_ESCAPE      :number                             = 27;
+        /** The keycode that represents the 'SPACE' key. */
+        public      static  KEY_SPACE       :number                             = 32;
 
         /** All current key information. */
         private             iAllKeys        :Array<boolean>                     = null;

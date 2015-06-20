@@ -3,7 +3,7 @@
     *   A direction.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.6
+    *   @version    0.0.7
     *****************************************************************************/
     enum LibDirection
     {

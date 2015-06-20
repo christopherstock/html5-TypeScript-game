@@ -3,7 +3,7 @@
     *   Represents a neverending main thread / game loop mechanism.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.6
+    *   @version    0.0.7
     *****************************************************************************/
     class LibMainThread
     {

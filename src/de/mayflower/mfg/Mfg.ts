@@ -2,17 +2,19 @@
     /*****************************************************************************
     *   The main class contains the application's points of entry and termination.
     *
-    *   TODO HIGH   Animated walls.
-    *   TODO HIGH   Single trigonometry-calculations of start and end-point for animated walls.
-    *   TODO HIGH   Invoke the move actions when the wall is moving!
-    *   TODO INIT   Sticky blocks ( horizontal platforms ).
-    *   TODO LOW    Support ascending / descending walls.
-    *   TODO WEAK   Collision system from rects to convex tetragons?
+    *   TODO ASAP   Sticky blocks ( e.g. horizontal moving platforms ).
+    *   TODO INIT   Support ascending / descending walls. ( Change collision system from rects to convex tetragons? Cut rects across the width/height?
+    *   TODO WEAK   New game object class Enemy.
     *
-    *   DONE        Pruned LibCollisionInfo.
+    *   DONE        Improved collision indication by only showing non-solved collisions.
+    *   DONE        Fixed reluctant blocks ignoring collisions on solid-top walls.
+    *   DONE        Let JS set the document title.
+    *   DISMISSED   Draw rectangle lines via drawLine, not via strokeRect.
+    *   DONE        Pruned collision plan from lib.
+    *   DONE        Created pass-through ('solid-top') walls.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.6
+    *   @version    0.0.7
     *****************************************************************************/
     class Mfg
     {
@@ -21,7 +23,7 @@
         *****************************************************************************/
         public static main():void
         {
-            //acclaim
+            //acclaim debug console
             MfgDebug.acclaim.log( MfgSettings.TITLE );
 
             //init game engine
