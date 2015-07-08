@@ -15,20 +15,14 @@
         /*****************************************************************************
         *   Creates a wall.
         *
-        *   @param  aX              Location X.
-        *   @param  aY              Location Y.
-        *   @param  aWidth          Wall width.
-        *   @param  aHeight         Wall height.
+        *   @param  aShape          The shape that represents this wall.
         *   @param  aCollisionPlan  Specifies this wall's behaviour on solving collisions.
         *   @param  aStickyTop      Specifies if this wall's top is sticky.
         *   @param  aAnimations     The animation for this wall. May be <code>null</code> if no animation is requested.
         *****************************************************************************/
         public constructor
         (
-            aX:number,
-            aY:number,
-            aWidth:number,
-            aHeight:number,
+            aShape:LibShape2D,
             aCollisionPlan:MfgCollisionPlan,
             aStickyTop:boolean,
             aAnimations:Array<LibAnimation>
@@ -36,13 +30,7 @@
         {
             super
             (
-                new LibRect2D
-                (
-                    aX,
-                    aY,
-                    aWidth,
-                    aHeight
-                ),
+                aShape,
                 null,
                 aAnimations,
                 aCollisionPlan,

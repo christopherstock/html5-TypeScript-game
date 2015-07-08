@@ -57,8 +57,8 @@
         private setPlayerStartupPosition()
         {
             //set fixed positions
-            this.iPlayer.iRect.iAnchor.iX = 100;
-            this.iPlayer.iRect.iAnchor.iY = this.iSize.iHeight - this.iPlayer.iRect.iSize.iHeight - 100;
+            this.iPlayer.iShape.iAnchor.iX = 750;
+            this.iPlayer.iShape.iAnchor.iY = this.iSize.iHeight - this.iPlayer.iShape.iSize.iHeight - 0;
         }
 
         /*****************************************************************************
@@ -70,35 +70,35 @@
             this.iWalls =
             [
 
-                new MfgWall( 0,                 -1,                     this.iSize.iWidth,  1,                  MfgCollisionPlan.SOLID_ALL, false, null ),
-                new MfgWall( 0,                 this.iSize.iHeight,     this.iSize.iWidth,  1,                  MfgCollisionPlan.SOLID_ALL, false, null ),
-                new MfgWall( -1,                0,                      1,                  this.iSize.iHeight, MfgCollisionPlan.SOLID_ALL, false, null ),
-                new MfgWall( this.iSize.iWidth, 0,                      1,                  this.iSize.iHeight, MfgCollisionPlan.SOLID_ALL, false, null )
+                new MfgWall( new LibRect2D( 0,                 -1,                     this.iSize.iWidth,  1 ),                  MfgCollisionPlan.SOLID_ALL, false, null ),
+                new MfgWall( new LibRect2D( 0,                 this.iSize.iHeight,     this.iSize.iWidth,  1 ),                  MfgCollisionPlan.SOLID_ALL, false, null ),
+                new MfgWall( new LibRect2D( -1,                0,                      1,                  this.iSize.iHeight ), MfgCollisionPlan.SOLID_ALL, false, null ),
+                new MfgWall( new LibRect2D( this.iSize.iWidth, 0,                      1,                  this.iSize.iHeight ), MfgCollisionPlan.SOLID_ALL, false, null )
 
             ];
 
-            switch ( 1 )
+            switch ( 4 )
             {
                 case 1:
                 {
                     //solid walls
-                    this.iWalls.push( new MfgWall( 455, 1295, 100, 25, MfgCollisionPlan.SOLID_ALL, false, null ) );
-                    this.iWalls.push( new MfgWall( 555, 1295, 300, 25, MfgCollisionPlan.SOLID_ALL, false, null ) );
-                    this.iWalls.push( new MfgWall( 955, 1295, 250, 25, MfgCollisionPlan.SOLID_TOP, false, null ) );
+                    this.iWalls.push( new MfgWall( new LibRect2D( 455, 1295, 100, 25 ), MfgCollisionPlan.SOLID_ALL, false, null ) );
+                    this.iWalls.push( new MfgWall( new LibRect2D( 555, 1295, 300, 25 ), MfgCollisionPlan.SOLID_ALL, false, null ) );
+                    this.iWalls.push( new MfgWall( new LibRect2D( 955, 1295, 250, 25 ), MfgCollisionPlan.SOLID_TOP, false, null ) );
 
                     //reluctant walls
-                    this.iWalls.push( new MfgWall( 305, 1425, 75,  10, MfgCollisionPlan.RELUCTANT,  false, null ) );
-                    this.iWalls.push( new MfgWall( 305, 1435, 75,  10, MfgCollisionPlan.RELUCTANT,  false, null ) );
-                    this.iWalls.push( new MfgWall( 305, 1445, 75,  10, MfgCollisionPlan.RELUCTANT,  false, null ) );
-                    this.iWalls.push( new MfgWall( 305, 1455, 75,  10, MfgCollisionPlan.RELUCTANT,  false, null ) );
-                    this.iWalls.push( new MfgWall( 305, 1350, 75,  75, MfgCollisionPlan.RELUCTANT,  false, null ) );
-                    this.iWalls.push( new MfgWall( 380, 1290, 75,  75, MfgCollisionPlan.RELUCTANT,  false, null ) );
+                    this.iWalls.push( new MfgWall( new LibRect2D( 305, 1425, 75,  10 ), MfgCollisionPlan.RELUCTANT,  false, null ) );
+                    this.iWalls.push( new MfgWall( new LibRect2D( 305, 1435, 75,  10 ), MfgCollisionPlan.RELUCTANT,  false, null ) );
+                    this.iWalls.push( new MfgWall( new LibRect2D( 305, 1445, 75,  10 ), MfgCollisionPlan.RELUCTANT,  false, null ) );
+                    this.iWalls.push( new MfgWall( new LibRect2D( 305, 1455, 75,  10 ), MfgCollisionPlan.RELUCTANT,  false, null ) );
+                    this.iWalls.push( new MfgWall( new LibRect2D( 305, 1350, 75,  75 ), MfgCollisionPlan.RELUCTANT,  false, null ) );
+                    this.iWalls.push( new MfgWall( new LibRect2D( 380, 1290, 75,  75 ), MfgCollisionPlan.RELUCTANT,  false, null ) );
 
                     //small reluctant walls ..
-                    this.iWalls.push( new MfgWall( 0,   1525, 5,   75, MfgCollisionPlan.RELUCTANT,  false, null ) );
-                    this.iWalls.push( new MfgWall( 5,   1520, 5,   75, MfgCollisionPlan.RELUCTANT,  false, null ) );
-                    this.iWalls.push( new MfgWall( 0,   20,   75,  5,  MfgCollisionPlan.RELUCTANT,  false, null ) );
-                    this.iWalls.push( new MfgWall( 0,   30,   75,  5,  MfgCollisionPlan.RELUCTANT,  false, null ) );
+                    this.iWalls.push( new MfgWall( new LibRect2D( 0,   1525, 5,   75 ), MfgCollisionPlan.RELUCTANT,  false, null ) );
+                    this.iWalls.push( new MfgWall( new LibRect2D( 5,   1520, 5,   75 ), MfgCollisionPlan.RELUCTANT,  false, null ) );
+                    this.iWalls.push( new MfgWall( new LibRect2D( 0,   20,   75,  5  ),  MfgCollisionPlan.RELUCTANT,  false, null ) );
+                    this.iWalls.push( new MfgWall( new LibRect2D( 0,   30,   75,  5  ),  MfgCollisionPlan.RELUCTANT,  false, null ) );
 
                     break;
                 }
@@ -112,7 +112,7 @@
                     (
                         new MfgWall
                         (
-                            200, 1225, 75,  75, MfgCollisionPlan.SOLID_ALL, false,
+                            new LibRect2D( 200, 1225, 75,  75 ), MfgCollisionPlan.SOLID_ALL, false,
                             [
                                 //new LibAnimationSwing( 90, 5, 10, 10, 50, 50 ),
 
@@ -130,8 +130,28 @@
 
                 case 3:
                 {
-                    this.iWalls.push( new MfgWall( 250, 1350, 75,  75, MfgCollisionPlan.SOLID_ALL, true,  [ new LibAnimationLinear( 35, 10, 5, 5 ) ] ) );
-                    this.iWalls.push( new MfgWall( 750, 1350, 75,  75, MfgCollisionPlan.SOLID_ALL, false, [ new LibAnimationLinear( 35, 10, 5, 5 ) ] ) );
+                    this.iWalls.push( new MfgWall( new LibRect2D( 250, 1350, 75,  75 ), MfgCollisionPlan.SOLID_ALL, true,  [ new LibAnimationLinear( 35, 10, 5, 5 ) ] ) );
+                    this.iWalls.push( new MfgWall( new LibRect2D( 750, 1350, 75,  75 ), MfgCollisionPlan.SOLID_ALL, false, [ new LibAnimationLinear( 35, 10, 5, 5 ) ] ) );
+
+                    break;
+                }
+
+                case 4:
+                {
+                    this.iWalls.push( new MfgWall( new LibRect2D( 200, 1200, 75,  75 ), MfgCollisionPlan.SOLID_ALL, true,  null ) );
+                    this.iWalls.push( new MfgWall( new LibRightTriangle2D( LibRightCorner2D.RIGHT_BOTTOM, 370, 1370, 150,  80 ), MfgCollisionPlan.RELUCTANT, true,  null ) );
+
+                    break;
+                }
+
+                case 5:
+                {
+                    this.iWalls.push( new MfgWall( new LibRect2D( 0, 1500, 500, 100 ), MfgCollisionPlan.SOLID_ALL, true,  null ) );
+                    this.iWalls.push( new MfgWall( new LibRightTriangle2D( LibRightCorner2D.LEFT_BOTTOM, 500, 1500, 200, 100 ), MfgCollisionPlan.SOLID_ALL, true,  null ) );
+                    this.iWalls.push( new MfgWall( new LibRightTriangle2D( LibRightCorner2D.RIGHT_BOTTOM, 850, 1500, 200, 100 ), MfgCollisionPlan.SOLID_ALL, true,  null ) );
+
+
+
 
                     break;
                 }
@@ -273,7 +293,7 @@
         private handleGravity()
         {
             //affect gravity on the player
-            this.iPlayer.moveWithCollisionCheck( LibDirection.DOWN, MfgSettings.GRAVITY );
+            this.iPlayer.moveWithCollisionCheck( LibDirection2D.DOWN, MfgSettings.GRAVITY );
 
 
 
@@ -309,7 +329,7 @@
         *   @return An array holding all game objects of the current level.
         *           The own game object is filtered.
         *****************************************************************************/
-        public getAllForeignCollidableGameObjects( movingGameObject:MfgGameObject, movingDirection:LibDirection ):Array<MfgGameObject>
+        public getAllForeignCollidableGameObjects( movingGameObject:MfgGameObject, movingDirection:LibDirection2D ):Array<MfgGameObject>
         {
             var ret:Array<MfgGameObject> = [];
 

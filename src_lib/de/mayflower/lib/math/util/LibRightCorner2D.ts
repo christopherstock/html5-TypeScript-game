@@ -1,14 +1,14 @@
 
     /*****************************************************************************
-    *   A direction.
+    *   A right corner position in 2D space.
     *
     *   @author     Christopher Stock
     *   @version    0.0.7
     *****************************************************************************/
-    enum LibDirection
+    enum LibRightCorner2D
     {
-        LEFT,
-        UP,
-        RIGHT,
-        DOWN,
+        LEFT_TOP,
+        LEFT_BOTTOM,
+        RIGHT_TOP,
+        RIGHT_BOTTOM,
     }

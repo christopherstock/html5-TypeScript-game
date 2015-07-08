@@ -1,17 +1,16 @@
 
     /*****************************************************************************
-    *   Owners of a rectangle should implement this interface.
+    *   Owners of a shape should implement this interface.
     *
     *   @author     Christopher Stock
     *   @version    0.0.7
     *****************************************************************************/
-    interface LibRect2DOwner
+    interface LibShape2DOwner
     {
         /*****************************************************************************
-        *   Delivers the rectangle that is owned by the implementing owner.
+        *   Delivers the shape that is owned by the implementing owner.
         *
-        *   @return The rectangle of this owner.
+        *   @return The shape of this owner.
         *****************************************************************************/
-        getRect():LibRect2D;
-
+        getShape():LibShape2D;
     }

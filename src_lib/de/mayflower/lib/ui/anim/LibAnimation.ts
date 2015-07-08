@@ -79,7 +79,7 @@
         *****************************************************************************/
         public getLastMovementDirectionX():number
         {
-            return ( this.iLastDeltaX < 0 ? LibDirection.LEFT : LibDirection.RIGHT );
+            return ( this.iLastDeltaX < 0 ? LibDirection2D.LEFT : LibDirection2D.RIGHT );
         }
 
         /*****************************************************************************
@@ -89,6 +89,6 @@
         *****************************************************************************/
         public getLastMovementDirectionY():number
         {
-            return ( this.iLastDeltaY < 0 ? LibDirection.UP : LibDirection.DOWN );
+            return ( this.iLastDeltaY < 0 ? LibDirection2D.UP : LibDirection2D.DOWN );
         }
     }

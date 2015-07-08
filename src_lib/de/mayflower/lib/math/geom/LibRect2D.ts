@@ -5,14 +5,8 @@
     *   @author     Christopher Stock
     *   @version    0.0.7
     *****************************************************************************/
-    class LibRect2D
+    class LibRect2D extends LibShape2D
     {
-        /** The left top coordinate. */
-        public              iAnchor         :LibPoint2D                 = null;
-
-        /** The width and height. */
-        public              iSize           :LibDimension2D             = null;
-
         /*****************************************************************************
         *   Constructs a new rectangular.
         *
@@ -23,16 +17,15 @@
         *****************************************************************************/
         public constructor( aLeft:number, aTop:number, aWidth:number, aHeight:number )
         {
-            this.iAnchor    = new LibPoint2D(     aLeft,  aTop    );
-            this.iSize      = new LibDimension2D( aWidth, aHeight );
+            super( aLeft, aTop, aWidth, aHeight );
         }
 
         /*****************************************************************************
-        *   Checks if the given rect contains the given point.
+        *   Checks if this rect contains the given point.
         *
         *   @param  x  The X coordinate of the point to check.
         *   @param  y  The Y coordinate of the point to check.
-        *   @return    <code>true</code> if the point lies in the rectangle.
+        *   @return    <code>true</code> if the point lies inside the rectangle.
         *              Otherwise <code>false</code>.
         *****************************************************************************/
         public containsPoint( x:number, y:number ):boolean
@@ -52,37 +45,46 @@
         *   @return         <code>true</code> if the rects collide.
         *                   Otherwise <code>false</code>.
         *****************************************************************************/
-        public rectsCollide( rect:LibRect2D ):boolean
+        public collidesWithRect( rect:LibRect2D ):boolean
         {
-            return (
-                    this.iAnchor.iX + this.iSize.iWidth     > rect.iAnchor.iX
-                &&  this.iAnchor.iX                         < rect.iAnchor.iX + rect.iSize.iWidth
-                &&  this.iAnchor.iY  + this.iSize.iHeight   > rect.iAnchor.iY
-                &&  this.iAnchor.iY                         < rect.iAnchor.iY + rect.iSize.iHeight
-                &&  !this.equalsWithRect( rect )
+            return !(
+                    this.iAnchor.iX                         >= rect.iAnchor.iX + rect.iSize.iWidth
+                ||  this.iAnchor.iX  + this.iSize.iWidth    <= rect.iAnchor.iX
+                ||  this.iAnchor.iY                         >= rect.iAnchor.iY + rect.iSize.iHeight
+                ||  this.iAnchor.iY  + this.iSize.iHeight   <= rect.iAnchor.iY
             );
         }
 
         /*****************************************************************************
-        *   Returns all rects of the given rects that intersect with this rect.
+        *   Returns all shapes of the given shapes that intersect with this rect.
         *
-        *   @param  rects   The rects to check for intersection.
-        *   @return         An array with all rects that intersect this rect.
+        *   @param  shapes  The shapes to check for intersection.
+        *   @return         An array with all shapes that intersect this rect.
         *                   The array will be empty if no intersection occured.
         *****************************************************************************/
-        public getCollidingRects( rects:Array<LibRect2DOwner> ):Array<LibRect2DOwner>
+        public getCollidingShapes( shapes:Array<LibShape2DOwner> ):Array<LibShape2DOwner>
         {
-            var collidingRects:Array<LibRect2DOwner> = Array<LibRect2DOwner>();
+            var collidingShapes:Array<LibShape2DOwner> = Array<LibShape2DOwner>();
 
-            for ( var i:number = 0; i < rects.length; ++i )
+            for ( var i:number = 0; i < shapes.length; ++i )
             {
-                if ( this.rectsCollide( rects[ i ].getRect() ) )
+                if ( shapes[ i ].getShape() instanceof LibRect2D )
                 {
-                    collidingRects.push( rects[ i ] );
+                    if ( this.collidesWithRect( <LibRect2D>shapes[ i ].getShape() ) )
+                    {
+                        collidingShapes.push( shapes[ i ] );
+                    }
+                }
+                else if ( shapes[ i ].getShape() instanceof LibRightTriangle2D )
+                {
+                    if ( ( <LibRightTriangle2D>shapes[ i ].getShape() ).collidesWithRect( this ) )
+                    {
+                        collidingShapes.push( shapes[ i ] );
+                    }
                 }
             }
 
-            return collidingRects;
+            return collidingShapes;
         }
 
         /*****************************************************************************

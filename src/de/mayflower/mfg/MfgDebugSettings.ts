@@ -20,7 +20,7 @@
         public      static      DEBUG_DISABLE_SPRITES                       :boolean            = true;
 
         /** The number of items to show on the level. */
-        public      static      DEBUG_ITEM_COUNT                            :number             = 20;
+        public      static      DEBUG_ITEM_COUNT                            :number             = 0;
 
         /** Specifies if animation anchors should be drawn for debug purposes. */
         public      static      DEBUG_DRAW_ANIMATION_ANCHORS                :boolean            = true;

@@ -33,10 +33,22 @@
         *   @return                 <code>true</code> if this game-object is free of collisions now.
         *                           Otherwise <code>false</code>.
         *****************************************************************************/
-        public handleCollisions( movingDirection:LibDirection, gameObjects:Array<LibRect2DOwner> ):boolean
+        public handleCollisions( movingDirection:LibDirection2D, gameObjects:Array<LibShape2DOwner> ):boolean
         {
             //calculate all colliding rects
-            var collidingObjects:Array<LibRect2DOwner> = this.iParentGameObject.getRect().getCollidingRects( gameObjects );
+            var collidingObjects:Array<LibShape2DOwner> = null;
+
+
+            //TODO move to superclass!
+
+            if ( this.iParentGameObject.getShape() instanceof LibRect2D )
+            {
+                collidingObjects = ( <LibRect2D>this.iParentGameObject.getShape() ).getCollidingShapes( gameObjects );
+            }
+            else if ( this.iParentGameObject.getShape() instanceof LibRightTriangle2D )
+            {
+                collidingObjects = ( <LibRightTriangle2D>this.iParentGameObject.getShape() ).getCollidingShapes( gameObjects );
+            }
 
             //check if collision occurred
             if ( collidingObjects.length > 0 )
@@ -56,7 +68,7 @@
                 //set the debug collision indicator if the collision could not be solved
                 if ( !collisionSolved )
                 {
-                    this.iDebugCollision.setCollisionIndicator( movingDirection );
+                    this.iDebugCollision.setCollisionIndicator( movingDirection, true );
                 }
 
                 //solve this collision
@@ -74,7 +86,7 @@
         *   @return                 <code>true</code> if the parent game object is free of collisions now.
         *                           Otherwise <code>false</code>.
         *****************************************************************************/
-        private solveCollision( collidingObjects:Array<LibRect2DOwner>, movingDirection:LibDirection ):boolean
+        private solveCollision( collidingObjects:Array<LibShape2DOwner>, movingDirection:LibDirection2D ):boolean
         {
             //solve the collision by VANISHING this game object if this is a VANISHING game object
             if ( this.iParentGameObject.getCollisionPlan() == MfgCollisionPlan.VANISHING )
@@ -128,8 +140,8 @@
                 if
                 (
                         collidingGameObject.getCollisionPlan() == MfgCollisionPlan.SOLID_TOP
-                    &&  movingDirection == LibDirection.DOWN
-                    &&  this.iParentGameObject.getRect().iAnchor.iY + this.iParentGameObject.getRect().iSize.iHeight == collidingGameObject.getRect().iAnchor.iY + 1
+                    &&  movingDirection == LibDirection2D.DOWN
+                    &&  this.iParentGameObject.getShape().iAnchor.iY + this.iParentGameObject.getShape().iSize.iHeight == collidingGameObject.getShape().iAnchor.iY + 1
                 )
                 {
                     MfgDebug.collision.log( " solving: SOLID_TOP wall will DENY collision solve" );
@@ -151,7 +163,7 @@
                     collidingGameObject.move( movingDirection );
 
                     //gather all foreign game objects that should be capable of collisions and handle collisions for this colliding game object
-                    var gameObjects:Array<LibRect2DOwner> = MfgGame.level.getAllForeignCollidableGameObjects( collidingGameObject, movingDirection );
+                    var gameObjects:Array<LibShape2DOwner> = MfgGame.level.getAllForeignCollidableGameObjects( collidingGameObject, movingDirection );
                     var collisionFree:boolean             = collidingGameObject.iCollision.handleCollisions( movingDirection, gameObjects );
 
                     MfgDebug.collision.log( "  RELUCTANT game object is collision free [" + collisionFree + "]" );

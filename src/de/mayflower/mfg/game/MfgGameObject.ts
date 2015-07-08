@@ -5,10 +5,10 @@
     *   @author     Christopher Stock
     *   @version    0.0.7
     *****************************************************************************/
-    class MfgGameObject implements LibRect2DOwner
+    class MfgGameObject implements LibShape2DOwner
     {
-        /** The bounding rect. */
-        public          iRect                       :LibRect2D                      = null;
+        /** The bounding shape. */
+        public          iShape                      :LibShape2D                     = null;
         /** The sprite representation. */
         public          iSprite                     :LibSprite                      = null;
         /** The animation to affect onto this wall. */
@@ -26,7 +26,7 @@
         /*****************************************************************************
         *   Creates a new game object.
         *
-        *   @param  aRect           A bounding rect.
+        *   @param  aShape          A bounding rect.
         *   @param  aSprite         The graphical representation.
         *   @param  aAnimations     The animation for this wall. May be <code>null</code> if no animation is requested.
         *   @param  aCollisionPlan  The collision plan for this game object.
@@ -34,17 +34,17 @@
         *****************************************************************************/
         public constructor
         (
-            aRect:LibRect2D,
+            aShape:LibShape2D,
             aSprite:LibSprite,
             aAnimations:Array<LibAnimation>,
             aCollisionPlan:MfgCollisionPlan,
             aDebugCollision:LibCollisionDebug
         )
         {
-            this.iRect           = aRect;
-            this.iSprite         = aSprite;
-            this.iAnimations     = ( aAnimations == null ? [] : aAnimations );
-            this.iCollisionPlan  = aCollisionPlan;
+            this.iShape         = aShape;
+            this.iSprite        = aSprite;
+            this.iAnimations    = ( aAnimations == null ? [] : aAnimations );
+            this.iCollisionPlan = aCollisionPlan;
 
             //set the collision object
             this.iCollision      = new MfgGameObjectCollision( this, aDebugCollision );
@@ -52,18 +52,18 @@
             //set the anchor for the animation if an animation is specified
             for ( var i:number = 0; i < this.iAnimations.length; ++i )
             {
-                this.iAnimations[ i ].reset( this.iRect.iAnchor );
+                this.iAnimations[ i ].reset( this.iShape.iAnchor );
             }
         }
 
         /*****************************************************************************
-        *   Delivers the rectangle that is owned by the implementing object.
+        *   Delivers the shape that is owned by the implementing object.
         *
-        *   @return The rectangle of this owner.
+        *   @return The shape of this owner.
         *****************************************************************************/
-        public getRect():LibRect2D
+        public getShape():LibShape2D
         {
-            return this.iRect;
+            return this.iShape;
         }
 
         /*****************************************************************************
@@ -136,14 +136,21 @@
                 this.iSprite.draw
                 (
                     context,
-                    this.iRect.iAnchor.iX - camera.iOffset.iX,
-                    this.iRect.iAnchor.iY - camera.iOffset.iY,
+                    this.iShape.iAnchor.iX - camera.iOffset.iX,
+                    this.iShape.iAnchor.iY - camera.iOffset.iY,
                     this.iAlpha
                 );
             }
 
             //draw debug context
-            this.iCollision.iDebugCollision.drawDebugRect( context, camera, this.iRect );
+            if ( this.iShape instanceof LibRect2D )
+            {
+                this.iCollision.iDebugCollision.drawDebugRect( context, camera, <LibRect2D>this.iShape );
+            }
+            else if ( this.iShape instanceof LibRightTriangle2D )
+            {
+                this.iCollision.iDebugCollision.drawDebugRightTriangle( context, camera, <LibRightTriangle2D>this.iShape );
+            }
 
             //draw debug animation anchor
             if ( MfgDebugSettings.DEBUG_DRAW_ANIMATION_ANCHORS )
@@ -179,11 +186,12 @@
         *
         *   @param  movingDirection     The direction to move to.
         *   @param  delta               The movement distance to move.
+        *   @return                     <code>true</code> if the movement could be performed successfully without colliding.
         *****************************************************************************/
-        public moveWithCollisionCheck( movingDirection:LibDirection, delta:number )
+        public moveWithCollisionCheck( movingDirection:LibDirection2D, delta:number ):boolean
         {
             //gather all foreign game objects that should be capable of collisions
-            var gameObjects:Array<LibRect2DOwner> = MfgGame.level.getAllForeignCollidableGameObjects(  this, movingDirection );
+            var gameObjects:Array<LibShape2DOwner> = MfgGame.level.getAllForeignCollidableGameObjects(  this, movingDirection );
 
             for ( var i:number = 0; i < delta; ++i )
             {
@@ -204,13 +212,31 @@
                     }
                 }
 */
-                //handle collisions and take back this objects if unsolved collisions remain
+                //handle collisions and take back this object if the collision could not be solved
                 if ( !this.iCollision.handleCollisions( movingDirection, gameObjects ) )
                 {
-                    this.moveBack( movingDirection );
-                    return;
+                    //perform AUTO-GAP for the PLAYER on moving LEFT or RIGHT
+                    if ( this instanceof MfgPlayer && ( movingDirection == LibDirection2D.LEFT || movingDirection == LibDirection2D.RIGHT ) )
+                    {
+                        if ( !this.moveWithCollisionCheck( LibDirection2D.UP, MfgSettings.PLAYER_AUTO_GAP_Y ) )
+                        {
+                            this.iCollision.iDebugCollision.setCollisionIndicator( LibDirection2D.UP, false );
+
+                            this.moveBack( movingDirection );
+                            return false;
+                        }
+
+                        this.iCollision.iDebugCollision.setCollisionIndicator( movingDirection, false );
+                    }
+                    else
+                    {
+                        this.moveBack( movingDirection );
+                        return false;
+                    }
                 }
             }
+
+            return true;
         }
 
         /*****************************************************************************
@@ -218,31 +244,31 @@
         *
         *   @param  movingDirection     The direction to move to.
         *****************************************************************************/
-        public move( movingDirection:LibDirection ):void
+        public move( movingDirection:LibDirection2D ):void
         {
             switch ( movingDirection )
             {
-                case LibDirection.LEFT:
+                case LibDirection2D.LEFT:
                 {
-                    --this.iRect.iAnchor.iX;
+                    --this.iShape.iAnchor.iX;
                     break;
                 }
 
-                case LibDirection.RIGHT:
+                case LibDirection2D.RIGHT:
                 {
-                    ++this.iRect.iAnchor.iX;
+                    ++this.iShape.iAnchor.iX;
                     break;
                 }
 
-                case LibDirection.UP:
+                case LibDirection2D.UP:
                 {
-                    --this.iRect.iAnchor.iY;
+                    --this.iShape.iAnchor.iY;
                     break;
                 }
 
-                case LibDirection.DOWN:
+                case LibDirection2D.DOWN:
                 {
-                    ++this.iRect.iAnchor.iY;
+                    ++this.iShape.iAnchor.iY;
                     break;
                 }
             }
@@ -253,31 +279,31 @@
         *
         *   @param  movingDirection     The OPPOSITE direction to move to.
         *****************************************************************************/
-        public moveBack( movingDirection:LibDirection ):void
+        public moveBack( movingDirection:LibDirection2D ):void
         {
             switch ( movingDirection )
             {
-                case LibDirection.LEFT:
+                case LibDirection2D.LEFT:
                 {
-                    ++this.iRect.iAnchor.iX;
+                    ++this.iShape.iAnchor.iX;
                     break;
                 }
 
-                case LibDirection.RIGHT:
+                case LibDirection2D.RIGHT:
                 {
-                    --this.iRect.iAnchor.iX;
+                    --this.iShape.iAnchor.iX;
                     break;
                 }
 
-                case LibDirection.UP:
+                case LibDirection2D.UP:
                 {
-                    ++this.iRect.iAnchor.iY;
+                    ++this.iShape.iAnchor.iY;
                     break;
                 }
 
-                case LibDirection.DOWN:
+                case LibDirection2D.DOWN:
                 {
-                    --this.iRect.iAnchor.iY;
+                    --this.iShape.iAnchor.iY;
                     break;
                 }
             }

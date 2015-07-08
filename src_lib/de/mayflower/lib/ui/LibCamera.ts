@@ -28,7 +28,7 @@
             levelHeight:number,
             canvasWidth:number,
             canvasHeight:number,
-            subject:LibRect2D
+            subject:LibShape2D
         )
         {
             //calculate scroll-x-offset so camera is centered to player

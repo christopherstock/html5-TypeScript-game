@@ -69,6 +69,34 @@
         }
 
         /*****************************************************************************
+        *   Fills a polygon of the specified x|y coordinates with the specified fill color.
+        *
+        *   @param  ctx         The rendering context.
+        *   @param  points      All x|y coordinate pairs.
+        *   @param  col         A fill color.
+        *****************************************************************************/
+        public static fillPolygon( ctx:CanvasRenderingContext2D, points:Array<number>, col:string )
+        {
+            ctx.fillStyle = col;
+
+            ctx.beginPath();
+
+            for ( var i:number = 0; i < points.length; i += 2 )
+            {
+                if ( i == 0 )
+                {
+                    ctx.moveTo( points[ i ], points[ i + 1 ] );
+                }
+                else
+                {
+                    ctx.lineTo( points[ i ], points[ i + 1 ] );
+                }
+            }
+
+            ctx.fill();
+        }
+
+        /*****************************************************************************
         *   Fills a rect with the specified dimensions and color.
         *
         *   @param  ctx     The rendering context.

@@ -49,13 +49,13 @@
             //alter player position
             if ( MfgGame.keySystem.isPressed( LibKeySystem.KEY_LEFT ) )
             {
-                this.moveWithCollisionCheck( LibDirection.LEFT, this.iSpeedMove );
+                this.moveWithCollisionCheck( LibDirection2D.LEFT, this.iSpeedMove );
                 this.setNewSprite( MfgSprite.PLAYER_WALK_LEFT );
             }
 
             if ( MfgGame.keySystem.isPressed( LibKeySystem.KEY_RIGHT ) )
             {
-                this.moveWithCollisionCheck( LibDirection.RIGHT, this.iSpeedMove );
+                this.moveWithCollisionCheck( LibDirection2D.RIGHT, this.iSpeedMove );
                 this.setNewSprite( MfgSprite.PLAYER_WALK_RIGHT );
             }
 
@@ -64,12 +64,12 @@
             {
                 if ( MfgGame.keySystem.isPressed( LibKeySystem.KEY_UP ) )
                 {
-                    this.moveWithCollisionCheck( LibDirection.UP, this.iSpeedMove );
+                    this.moveWithCollisionCheck( LibDirection2D.UP, this.iSpeedMove );
                 }
 
                 if ( MfgGame.keySystem.isPressed( LibKeySystem.KEY_DOWN ) )
                 {
-                    this.moveWithCollisionCheck( LibDirection.DOWN, this.iSpeedMove );
+                    this.moveWithCollisionCheck( LibDirection2D.DOWN, this.iSpeedMove );
                 }
             }
         }

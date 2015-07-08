@@ -27,6 +27,9 @@
         /** The falling speed in pixels per tick. */
         public      static      GRAVITY                                     :number             = 10;
 
+        /** The auto-ascending gap distance for the player. */
+        public      static      PLAYER_AUTO_GAP_Y                           :number             = 10;
+
         /** The desired level width. */
         public      static      LEVEL_WIDTH                                 :number             = 2560;
         /** The desired level height. */

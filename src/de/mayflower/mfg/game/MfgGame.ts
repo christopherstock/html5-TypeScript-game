@@ -112,7 +112,7 @@
                 MfgGame.level.getSize().iHeight,
                 MfgGame.canvas.getWidth(),
                 MfgGame.canvas.getHeight(),
-                MfgGame.level.getPlayer().getRect()
+                MfgGame.level.getPlayer().getShape()
             );
 
             //clear screen
