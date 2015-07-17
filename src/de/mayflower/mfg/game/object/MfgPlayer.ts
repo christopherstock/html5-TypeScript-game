@@ -27,7 +27,7 @@
                 MfgSprite.PLAYER_STAND_RIGHT,
                 null,
                 MfgCollisionPlan.RELUCTANT,
-                new LibCollisionDebug
+                new MfgCollisionDebug
                 (
                     MfgDebugSettings.DEBUG_DRAW_RECT_PLAYER,
                     MfgDebugSettings.DEBUG_COLOR_RECT_PLAYER_BORDER,

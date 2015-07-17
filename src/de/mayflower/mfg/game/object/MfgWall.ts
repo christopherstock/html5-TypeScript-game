@@ -34,7 +34,7 @@
                 null,
                 aAnimations,
                 aCollisionPlan,
-                new LibCollisionDebug
+                new MfgCollisionDebug
                 (
                     MfgDebugSettings.DEBUG_DRAW_RECT_WALL,
                     (

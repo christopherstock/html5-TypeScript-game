@@ -6,6 +6,9 @@
     *   TODO ASAP   Sticky blocks ( e.g. horizontal moving platforms ).
     *   TODO INIT   New game object class Enemy.
     *   TODO WEAK   Circle shapes + collision detection?
+    *   TODO WEAK   Different sprites for different situations and actions.
+    *
+    *   DONE        Refactored mfg-packages and lib.
     *
     *   @author     Christopher Stock
     *   @version    0.0.8

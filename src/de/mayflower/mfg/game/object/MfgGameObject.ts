@@ -38,7 +38,7 @@
             aSprite:LibSprite,
             aAnimations:Array<LibAnimation>,
             aCollisionPlan:MfgCollisionPlan,
-            aDebugCollision:LibCollisionDebug
+            aDebugCollision:MfgCollisionDebug
         )
         {
             this.iShape         = aShape;

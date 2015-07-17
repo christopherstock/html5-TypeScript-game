@@ -25,5 +25,5 @@
         private     static      V_0_0_1                 :LibVersion         = new LibVersion( "0.0.1", "GIRLSDAY",      "30.04.2015, 17:18:34 GMT+1",   "Solved module usage. Simplified file-references/import-system via _references.ts. Refactor MfgPlayer. Implemented suitable images. Player now manages a sprite instead of an image. Reimplemented the Sprite system. Pruned block class. Implement horizontal and vertical scrolling. Improve parallax scrolling for 2nd background. Extract parallax scrolling to function in order to support various bg layers. Converted all classes to TypeScript." );
 
         /** The project's current version. */
-        public      static      CURRENT_VERSION         :LibVersion         = MfgVersion.V_0_0_7;
+        public      static      CURRENT_VERSION         :LibVersion         = MfgVersion.V_0_0_8;
     }

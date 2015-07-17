@@ -10,7 +10,7 @@
         /** The game object that owns this collision object. */
         private                 iParentGameObject           :MfgGameObject              = null;
         /** The collision debug object. */
-        public                  iDebugCollision             :LibCollisionDebug          = null;
+        public                  iDebugCollision             :MfgCollisionDebug          = null;
 
         /*****************************************************************************
         *   Creates the collision scheme for a game object.
@@ -18,7 +18,7 @@
         *   @param  aParentGameObject The game object to handle all collisions for.
         *   @param  aDebugCollision   The collision-debug context.
         *****************************************************************************/
-        public constructor( aParentGameObject:MfgGameObject, aDebugCollision:LibCollisionDebug )
+        public constructor( aParentGameObject:MfgGameObject, aDebugCollision:MfgCollisionDebug )
         {
             this.iParentGameObject = aParentGameObject;
             this.iDebugCollision   = aDebugCollision;

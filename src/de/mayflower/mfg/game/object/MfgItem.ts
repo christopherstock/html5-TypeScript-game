@@ -28,7 +28,7 @@
                 MfgSprite.ITEM_MF_LOGO,
                 aAnimations,
                 MfgCollisionPlan.VANISHING,
-                new LibCollisionDebug
+                new MfgCollisionDebug
                 (
                     MfgDebugSettings.DEBUG_DRAW_RECT_ITEM,
                     MfgDebugSettings.DEBUG_COLOR_RECT_ITEM_BORDER,

@@ -5,7 +5,7 @@
     *   @author     Christopher Stock
     *   @version    0.0.8
     *****************************************************************************/
-    class LibCollisionDebug
+    class MfgCollisionDebug
     {
         /** Flags if the debug shape should be drawn. */
         private         iDrawShape                  :boolean                        = false;

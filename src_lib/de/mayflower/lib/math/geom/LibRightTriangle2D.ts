@@ -115,7 +115,7 @@
                 }
                 else if ( shapes[ i ].getShape() instanceof LibRightTriangle2D )
                 {
-                    MfgDebug.collision.log( "TODO Collisions between right angled triangles aren't implemented yet!" );
+                    console.log( "Sorry .. collisions between right angled triangles aren't implemented yet!" );
 /*
                     if ( ( <LibRightTriangle2D>shapes[ i ].getShape() ).collidesWithRect( this ) )
                     {
