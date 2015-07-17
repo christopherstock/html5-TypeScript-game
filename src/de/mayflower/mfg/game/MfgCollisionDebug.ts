@@ -3,7 +3,7 @@
     *   Manages all debug information for one game object.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.7
+    *   @version    0.0.8
     *****************************************************************************/
     class LibCollisionDebug
     {

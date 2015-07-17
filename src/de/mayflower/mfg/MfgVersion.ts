@@ -3,12 +3,14 @@
     *   Contains the project history with all current and completed version information.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.7
+    *   @version    0.0.8
     **************************************************************************************/
     class MfgVersion
     {
+        /** The project's version v.0.0.8. */
+        private     static      V_0_0_8                 :LibVersion         = new LibVersion( "0.0.8", "[IN_PROGRESS]", "[IN_PROGRESS]",                "" );
         /** The project's version v.0.0.7. */
-        private     static      V_0_0_7                 :LibVersion         = new LibVersion( "0.0.7", "[IN_PROGRESS]", "[IN_PROGRESS]",                "" );
+        private     static      V_0_0_7                 :LibVersion         = new LibVersion( "0.0.7", "TRIANGLES",     "17.07.2015, 10:14:12 GMT+1",   "Refactored MfgGameObjectCollision - handleCollisions-invocation by moving getCollidingShapes to the superclass. Implemented reluctancy for triangles. Completed seamlessness movement from rectangles to triangles. Implemented ascending and descending walls. Auto-gap-ascending for the player. Implemented Right-sided triangle shapes and the according collision detection. Created parent superclass shape2D for geometrical 2D bodies. Improved collision indication by only showing non-solved collisions. Fixed reluctant blocks ignoring collisions on solid-top walls. Let JS set the document title. Pruned collision plan from lib. Created pass-through ('solid-top') walls." );
         /** The project's version v.0.0.6. */
         private     static      V_0_0_6                 :LibVersion         = new LibVersion( "0.0.6", "ANIMATIONS",    "17.06.2015, 22:48:32 GMT+1",   "Support for multiple animations. Create swinging animation. Allow vanishing for all game objects. Allow animations for all game objects ( items! ). Adjusted collision behaviour for different game object types. Invoked move actions when the wall is moving. Outsourced all debug-settings to class MfgDebugSettings. Implemented DEBUG_SHOW_ANCHOR for animations. MfgGameObject::draw - passed the drawing context. Animated walls. Pruned LibCollisionInfo." );
         /** The project's version v.0.0.5. */

@@ -3,7 +3,7 @@
     *   Owners of a shape should implement this interface.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.7
+    *   @version    0.0.8
     *****************************************************************************/
     interface LibShape2DOwner
     {

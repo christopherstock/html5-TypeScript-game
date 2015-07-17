@@ -3,7 +3,7 @@
     *   The key system that manages all pressed keys.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.7
+    *   @version    0.0.8
     *****************************************************************************/
     class LibKeySystem
     {

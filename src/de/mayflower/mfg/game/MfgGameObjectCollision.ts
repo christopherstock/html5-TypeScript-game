@@ -3,7 +3,7 @@
     *   Handles the collisions for game objects.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.7
+    *   @version    0.0.8
     *****************************************************************************/
     class MfgGameObjectCollision
     {
@@ -36,21 +36,9 @@
         public handleCollisions( movingDirection:LibDirection2D, gameObjects:Array<LibShape2DOwner> ):boolean
         {
             //calculate all colliding rects
-            var collidingObjects:Array<LibShape2DOwner> = null;
+            var collidingObjects:Array<LibShape2DOwner> = this.iParentGameObject.getShape().getCollidingShapes( gameObjects );
 
-
-            //TODO move to superclass!
-
-            if ( this.iParentGameObject.getShape() instanceof LibRect2D )
-            {
-                collidingObjects = ( <LibRect2D>this.iParentGameObject.getShape() ).getCollidingShapes( gameObjects );
-            }
-            else if ( this.iParentGameObject.getShape() instanceof LibRightTriangle2D )
-            {
-                collidingObjects = ( <LibRightTriangle2D>this.iParentGameObject.getShape() ).getCollidingShapes( gameObjects );
-            }
-
-            //check if collision occurred
+            //check if objects collide occurred
             if ( collidingObjects.length > 0 )
             {
                 //log the collision info

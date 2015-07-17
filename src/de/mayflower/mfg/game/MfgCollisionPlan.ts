@@ -3,7 +3,7 @@
     *   Specifies all possible ways how a solution should be cleared.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.7
+    *   @version    0.0.8
     *****************************************************************************/
     enum MfgCollisionPlan
     {

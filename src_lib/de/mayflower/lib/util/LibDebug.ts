@@ -3,7 +3,7 @@
     *   Represents one debug group. Logging can be enabled or disabled for this group.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.7
+    *   @version    0.0.8
     *****************************************************************************/
     class LibDebug
     {

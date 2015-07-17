@@ -4,7 +4,7 @@
     *   and is the abstract superclass of all 2D bodies.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.7
+    *   @version    0.0.8
     *****************************************************************************/
     class LibShape2D
     {
@@ -26,5 +26,19 @@
         {
             this.iAnchor = new LibPoint2D(     aLeft,  aTop    );
             this.iSize   = new LibDimension2D( aWidth, aHeight );
+        }
+
+
+        /*****************************************************************************
+        *   Returns all shapes of the given shapes that intersect with this shape.
+        *
+        *   @param  shapes  The shapes to check for intersection.
+        *   @return         An array with all shapes that intersect this shape.
+        *   @throws         Though this method is abstract, an Error is raised if it's
+        *                   being invoked directly.
+        *****************************************************************************/
+        public getCollidingShapes( shapes:Array<LibShape2DOwner> ):Array<LibShape2DOwner>
+        {
+            throw new Error("The abstract method is invoked!");
         }
     }

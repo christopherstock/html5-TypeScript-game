@@ -3,7 +3,7 @@
     *   Represents the 2d drawing surface.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.7
+    *   @version    0.0.8
     *****************************************************************************/
     class LibSprite
     {

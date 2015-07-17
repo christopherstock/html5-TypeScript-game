@@ -3,7 +3,7 @@
     *   A rectangular in 2D space.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.7
+    *   @version    0.0.8
     *****************************************************************************/
     class LibRect2D extends LibShape2D
     {

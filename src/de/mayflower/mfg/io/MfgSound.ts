@@ -3,7 +3,7 @@
     *   Manages all sound effects.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.7
+    *   @version    0.0.8
     *****************************************************************************/
     class MfgSound
     {

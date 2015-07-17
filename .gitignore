@@ -89,3 +89,17 @@
 /src_lib/de/mayflower/lib/ui/anim/LibAnimationSwing.js.map
 /src_lib/de/mayflower/lib/util/MfgCollisionPlan.js
 /src_lib/de/mayflower/lib/util/MfgCollisionPlan.js.map
+/src_lib/de/mayflower/lib/math/geom/LibShape2D.js.map
+/src_lib/de/mayflower/lib/math/geom/*.js
+/src_lib/de/mayflower/lib/math/util/*.js
+/src_lib/de/mayflower/lib/math/util/LibRightCorner2D.js
+/src_lib/de/mayflower/lib/math/util/LibDimension2D.js
+/src_lib/de/mayflower/lib/math/util/LibDirection2D.js
+/src_lib/de/mayflower/lib/math/util/LibOffset2D.js
+/src_lib/de/mayflower/lib/math/*.js
+/src_lib/de/mayflower/lib/math/LibMath.js
+/src/de/mayflower/mfg/game/MfgCollisionDebug.js
+/src_lib/de/mayflower/lib/math/geom/LibPoint2D.js
+/src_lib/de/mayflower/lib/math/geom/LibRect2D.js
+/src_lib/de/mayflower/lib/math/geom/LibRightTriangle2D.js
+/src_lib/de/mayflower/lib/math/geom/LibShape2D.js

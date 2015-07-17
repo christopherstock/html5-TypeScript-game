@@ -3,7 +3,7 @@
     *   Specifies all adjustments and balancings for the application.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.7
+    *   @version    0.0.8
     *****************************************************************************/
     class MfgSettings
     {

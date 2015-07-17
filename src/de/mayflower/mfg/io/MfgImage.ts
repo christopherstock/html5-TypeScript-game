@@ -3,7 +3,7 @@
     *   Represents the image system that handles all images being used by the app.
     *
     *   @author     Christopher Stock
-    *   @version    0.0.7
+    *   @version    0.0.8
     *****************************************************************************/
     class MfgImage
     {
