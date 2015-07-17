@@ -135,3 +135,8 @@
 /src/de/mayflower/mfg/game/collision/MfgCollisionPlan.js.map
 /src/de/mayflower/mfg/game/collision/MfgCollisionDebug.js.map
 /src/de/mayflower/mfg/game/collision/MfgCollision.js.map
+/src_lib/de/mayflower/lib/math/geom/LibPoint2D.js.map
+/src_lib/de/mayflower/lib/math/geom/LibRect2D.js.map
+/src_lib/de/mayflower/lib/math/geom/LibShape2DOwner.js.map
+/src_lib/de/mayflower/lib/math/LibMath.js.map
+/src_lib/de/mayflower/lib/math/LibMath2D.js.map
