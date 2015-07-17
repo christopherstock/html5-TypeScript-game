@@ -21,6 +21,9 @@
         /** The delay in ms between each thread tick. */
         public      static      THREAD_DELAY                                :number             = 40;
 
+        /** Enables conceptional feature 'player auto gap'. */
+        public      static      FEATURE_PLAYER_AUTO_GAP                     :boolean            = false;
+
         /** The player's speed in pixels per tick for movement operations. */
         public      static      PLAYER_SPEED_MOVE                           :number             = 15;
 

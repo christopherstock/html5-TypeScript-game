@@ -401,18 +401,18 @@
         public unsetAllCollisionIndicators():void
         {
             //player
-            this.iPlayer.iCollision.iDebugCollision.unsetCollisionIndicators();
+            this.iPlayer.iCollision.iDebugCollision.unsetAllCollisionIndicators();
 
             //all walls
             for ( var i:number = 0; i < this.iWalls.length; ++i )
             {
-                this.iWalls[ i ].iCollision.iDebugCollision.unsetCollisionIndicators();
+                this.iWalls[ i ].iCollision.iDebugCollision.unsetAllCollisionIndicators();
             }
 
             //all items
             for ( var i:number = 0; i < this.iItems.length; ++i )
             {
-                this.iItems[ i ].iCollision.iDebugCollision.unsetCollisionIndicators();
+                this.iItems[ i ].iCollision.iDebugCollision.unsetAllCollisionIndicators();
             }
         }
     }

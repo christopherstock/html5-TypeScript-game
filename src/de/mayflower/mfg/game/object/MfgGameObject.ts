@@ -145,11 +145,11 @@
             //draw debug context
             if ( this.iShape instanceof LibRect2D )
             {
-                this.iCollision.iDebugCollision.drawDebugRect( context, camera, <LibRect2D>this.iShape );
+                this.iCollision.iDebugCollision.drawRect( context, camera, <LibRect2D>this.iShape );
             }
             else if ( this.iShape instanceof LibRightTriangle2D )
             {
-                this.iCollision.iDebugCollision.drawDebugRightTriangle( context, camera, <LibRightTriangle2D>this.iShape );
+                this.iCollision.iDebugCollision.drawRightTriangle( context, camera, <LibRightTriangle2D>this.iShape );
             }
 
             //draw debug animation anchor
@@ -215,18 +215,25 @@
                 //handle collisions and take back this object if the collision could not be solved
                 if ( !this.iCollision.handleCollisions( movingDirection, gameObjects ) )
                 {
-                    //perform AUTO-GAP for the PLAYER on moving LEFT or RIGHT
-                    if ( this instanceof MfgPlayer && ( movingDirection == LibDirection2D.LEFT || movingDirection == LibDirection2D.RIGHT ) )
+                    //perform AUTO-GAP for the PLAYER on moving LEFT or RIGHT if enabled
+                    if
+                    (
+                            MfgSettings.FEATURE_PLAYER_AUTO_GAP
+                        &&  this instanceof MfgPlayer
+                        &&  ( movingDirection == LibDirection2D.LEFT || movingDirection == LibDirection2D.RIGHT )
+                    )
                     {
-                        if ( !this.moveWithCollisionCheck( LibDirection2D.UP, MfgSettings.PLAYER_AUTO_GAP_Y ) )
+                        if ( this.moveWithCollisionCheck( LibDirection2D.UP, MfgSettings.PLAYER_AUTO_GAP_Y ) )
+                        {
+                            this.iCollision.iDebugCollision.setCollisionIndicator( movingDirection, false );
+                        }
+                        else
                         {
                             this.iCollision.iDebugCollision.setCollisionIndicator( LibDirection2D.UP, false );
 
                             this.moveBack( movingDirection );
                             return false;
                         }
-
-                        this.iCollision.iDebugCollision.setCollisionIndicator( movingDirection, false );
                     }
                     else
                     {

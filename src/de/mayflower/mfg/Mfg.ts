@@ -2,6 +2,8 @@
     /*****************************************************************************
     *   The main class contains the application's points of entry and termination.
     *
+    *   TODO ASAP   Review feature 'player auto gap' - fix endless recursion on moving reluctant triangle right!
+    *   TODO ASAP   Buggy ascending on reluctant right-triangle?
     *   TODO ASAP   Collision indication for triangles.
     *   TODO ASAP   Sticky blocks ( e.g. horizontal moving platforms ).
     *   TODO INIT   New game object class Enemy.

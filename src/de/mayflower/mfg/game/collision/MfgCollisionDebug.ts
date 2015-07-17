@@ -65,7 +65,7 @@
         *   @param  camera  The camera position to draw this block for.
         *   @param  rect    The debug rect to draw.
         *****************************************************************************/
-        public drawDebugRect( context:CanvasRenderingContext2D, camera:LibCamera, rect:LibRect2D )
+        public drawRect( context:CanvasRenderingContext2D, camera:LibCamera, rect:LibRect2D )
         {
             //only if the debug flag is enabled for this debug object
             if ( this.iDrawShape )
@@ -74,27 +74,7 @@
                 LibDrawing.fillRect(   context, rect.iAnchor.iX - camera.iOffset.iX, rect.iAnchor.iY - camera.iOffset.iY, rect.iSize.iWidth, rect.iSize.iHeight, this.iRectColorFill );
 
                 //draw debug indication
-                var collisionIndicatorSize:number = 0;
-                if ( this.iCollidingLeft   )
-                {
-                    collisionIndicatorSize = ( this.iCollisionIndicatorSize > rect.iSize.iWidth ? rect.iSize.iWidth : this.iCollisionIndicatorSize );
-                    LibDrawing.fillRect( context, rect.iAnchor.iX - camera.iOffset.iX, rect.iAnchor.iY - camera.iOffset.iY, collisionIndicatorSize, rect.iSize.iHeight, this.iRectColorColliding );
-                }
-                if ( this.iCollidingBottom )
-                {
-                    collisionIndicatorSize = ( this.iCollisionIndicatorSize > rect.iSize.iHeight ? rect.iSize.iHeight : this.iCollisionIndicatorSize );
-                    LibDrawing.fillRect( context, rect.iAnchor.iX - camera.iOffset.iX, rect.iAnchor.iY + rect.iSize.iHeight - collisionIndicatorSize - camera.iOffset.iY, rect.iSize.iWidth, collisionIndicatorSize, this.iRectColorColliding );
-                }
-                if ( this.iCollidingRight  )
-                {
-                    collisionIndicatorSize = ( this.iCollisionIndicatorSize > rect.iSize.iWidth ? rect.iSize.iWidth : this.iCollisionIndicatorSize );
-                    LibDrawing.fillRect( context, rect.iAnchor.iX + rect.iSize.iWidth - collisionIndicatorSize - camera.iOffset.iX, rect.iAnchor.iY - camera.iOffset.iY, collisionIndicatorSize, rect.iSize.iHeight, this.iRectColorColliding );
-                }
-                if ( this.iCollidingTop    )
-                {
-                    collisionIndicatorSize = ( this.iCollisionIndicatorSize > rect.iSize.iHeight ? rect.iSize.iHeight : this.iCollisionIndicatorSize );
-                    LibDrawing.fillRect( context, rect.iAnchor.iX - camera.iOffset.iX, rect.iAnchor.iY - camera.iOffset.iY, rect.iSize.iWidth, collisionIndicatorSize, this.iRectColorColliding );
-                }
+                this.drawCollisionIndication( context, camera, rect );
 
                 //stroke
                 LibDrawing.strokeRect( context, rect.iAnchor.iX - camera.iOffset.iX, rect.iAnchor.iY - camera.iOffset.iY, rect.iSize.iWidth, rect.iSize.iHeight, this.iRectColorStroke, this.iStrokeSize );
@@ -108,7 +88,7 @@
         *   @param  camera   The camera position to draw this block for.
         *   @param  triangle The debug triangle to draw.
         *****************************************************************************/
-        public drawDebugRightTriangle( context:CanvasRenderingContext2D, camera:LibCamera, triangle:LibRightTriangle2D )
+        public drawRightTriangle( context:CanvasRenderingContext2D, camera:LibCamera, triangle:LibRightTriangle2D )
         {
             //only if the debug flag is enabled for this debug object
             if ( this.iDrawShape )
@@ -129,6 +109,21 @@
                             ],
                             this.iRectColorFill
                         );
+
+                        //clip triangle
+                        context.save();
+                        context.beginPath();
+                        context.moveTo( triangle.iAnchor.iX - camera.iOffset.iX,                         triangle.iAnchor.iY - camera.iOffset.iY );
+                        context.lineTo( triangle.iAnchor.iX - camera.iOffset.iX + triangle.iSize.iWidth, triangle.iAnchor.iY - camera.iOffset.iY );
+                        context.lineTo( triangle.iAnchor.iX - camera.iOffset.iX,                         triangle.iAnchor.iY - camera.iOffset.iY + triangle.iSize.iHeight );
+                        context.closePath();
+                        context.clip();
+
+                        //collision indication
+                        this.drawCollisionIndication( context, camera, triangle );
+
+                        //release clip
+                        context.restore();
 
                         //stroke
                         LibDrawing.fillRect(   context, triangle.iAnchor.iX - camera.iOffset.iX, triangle.iAnchor.iY - camera.iOffset.iY, triangle.iSize.iWidth, this.iStrokeSize,                      this.iRectColorStroke );
@@ -152,6 +147,21 @@
                             this.iRectColorFill
                         );
 
+                        //clip triangle
+                        context.save();
+                        context.beginPath();
+                        context.moveTo( triangle.iAnchor.iX - camera.iOffset.iX,                         triangle.iAnchor.iY - camera.iOffset.iY );
+                        context.lineTo( triangle.iAnchor.iX - camera.iOffset.iX + triangle.iSize.iWidth, triangle.iAnchor.iY - camera.iOffset.iY );
+                        context.lineTo( triangle.iAnchor.iX - camera.iOffset.iX + triangle.iSize.iWidth, triangle.iAnchor.iY - camera.iOffset.iY + triangle.iSize.iHeight );
+                        context.closePath();
+                        context.clip();
+
+                        //collision indication
+                        this.drawCollisionIndication( context, camera, triangle );
+
+                        //release clip
+                        context.restore();
+
                         //stroke
                         LibDrawing.fillRect(   context, triangle.iAnchor.iX - camera.iOffset.iX, triangle.iAnchor.iY - camera.iOffset.iY, triangle.iSize.iWidth, this.iStrokeSize,                      this.iRectColorStroke );
                         LibDrawing.fillRect(   context, triangle.iAnchor.iX - camera.iOffset.iX + triangle.iSize.iWidth - this.iStrokeSize, triangle.iAnchor.iY - camera.iOffset.iY, this.iStrokeSize,                     triangle.iSize.iHeight, this.iRectColorStroke );
@@ -173,6 +183,21 @@
                             ],
                             this.iRectColorFill
                         );
+
+                        //clip triangle
+                        context.save();
+                        context.beginPath();
+                        context.moveTo( triangle.iAnchor.iX - camera.iOffset.iX,                         triangle.iAnchor.iY - camera.iOffset.iY );
+                        context.lineTo( triangle.iAnchor.iX - camera.iOffset.iX + triangle.iSize.iWidth, triangle.iAnchor.iY - camera.iOffset.iY + triangle.iSize.iHeight );
+                        context.lineTo( triangle.iAnchor.iX - camera.iOffset.iX,                         triangle.iAnchor.iY - camera.iOffset.iY + triangle.iSize.iHeight );
+                        context.closePath();
+                        context.clip();
+
+                        //collision indication
+                        this.drawCollisionIndication( context, camera, triangle );
+
+                        //release clip
+                        context.restore();
 
                         //stroke
                         LibDrawing.fillRect(   context, triangle.iAnchor.iX - camera.iOffset.iX, triangle.iAnchor.iY - camera.iOffset.iY + triangle.iSize.iHeight - this.iStrokeSize, triangle.iSize.iWidth, this.iStrokeSize,                      this.iRectColorStroke );
@@ -196,6 +221,21 @@
                             this.iRectColorFill
                         );
 
+                        //clip triangle
+                        context.save();
+                        context.beginPath();
+                        context.moveTo( triangle.iAnchor.iX - camera.iOffset.iX,                         triangle.iAnchor.iY - camera.iOffset.iY + triangle.iSize.iHeight );
+                        context.lineTo( triangle.iAnchor.iX - camera.iOffset.iX + triangle.iSize.iWidth, triangle.iAnchor.iY - camera.iOffset.iY );
+                        context.lineTo( triangle.iAnchor.iX - camera.iOffset.iX + triangle.iSize.iWidth, triangle.iAnchor.iY - camera.iOffset.iY + triangle.iSize.iHeight );
+                        context.closePath();
+                        context.clip();
+
+                        //collision indication
+                        this.drawCollisionIndication( context, camera, triangle );
+
+                        //release clip
+                        context.restore();
+
                         //stroke
                         LibDrawing.fillRect(   context, triangle.iAnchor.iX - camera.iOffset.iX + triangle.iSize.iWidth - this.iStrokeSize, triangle.iAnchor.iY - camera.iOffset.iY, this.iStrokeSize, triangle.iSize.iHeight,                      this.iRectColorStroke );
                         LibDrawing.fillRect(   context, triangle.iAnchor.iX - camera.iOffset.iX, triangle.iAnchor.iY - camera.iOffset.iY + triangle.iSize.iHeight - this.iStrokeSize, triangle.iSize.iWidth,                     this.iStrokeSize, this.iRectColorStroke );
@@ -205,36 +245,38 @@
                     }
                 }
             }
-/*
-            //draw debug rect over game object
-            LibDrawing.fillRect(   context, rect.iAnchor.iX - camera.iOffset.iX, rect.iAnchor.iY - camera.iOffset.iY, rect.iSize.iWidth, rect.iSize.iHeight, this.iRectColorFill );
+        }
 
-            //draw debug indication
+        /*****************************************************************************
+        *   Draws the debug indication edges for this game object.
+        *
+        *   @param  context     The drawing context.
+        *   @param  camera      The camera position to draw this block for.
+        *   @param  shape        The debug shape to draw.
+        *****************************************************************************/
+        private drawCollisionIndication( context:CanvasRenderingContext2D, camera:LibCamera, shape:LibShape2D )
+        {
             var collisionIndicatorSize:number = 0;
             if ( this.iCollidingLeft   )
             {
-                collisionIndicatorSize = ( this.iCollisionIndicatorSize > rect.iSize.iWidth ? rect.iSize.iWidth : this.iCollisionIndicatorSize );
-                LibDrawing.fillRect( context, rect.iAnchor.iX - camera.iOffset.iX, rect.iAnchor.iY - camera.iOffset.iY, collisionIndicatorSize, rect.iSize.iHeight, this.iRectColorColliding );
+                collisionIndicatorSize = ( this.iCollisionIndicatorSize > shape.iSize.iWidth ? shape.iSize.iWidth : this.iCollisionIndicatorSize );
+                LibDrawing.fillRect( context, shape.iAnchor.iX - camera.iOffset.iX, shape.iAnchor.iY - camera.iOffset.iY, collisionIndicatorSize, shape.iSize.iHeight, this.iRectColorColliding );
             }
             if ( this.iCollidingBottom )
             {
-                collisionIndicatorSize = ( this.iCollisionIndicatorSize > rect.iSize.iHeight ? rect.iSize.iHeight : this.iCollisionIndicatorSize );
-                LibDrawing.fillRect( context, rect.iAnchor.iX - camera.iOffset.iX, rect.iAnchor.iY + rect.iSize.iHeight - collisionIndicatorSize - camera.iOffset.iY, rect.iSize.iWidth, collisionIndicatorSize, this.iRectColorColliding );
+                collisionIndicatorSize = ( this.iCollisionIndicatorSize > shape.iSize.iHeight ? shape.iSize.iHeight : this.iCollisionIndicatorSize );
+                LibDrawing.fillRect( context, shape.iAnchor.iX - camera.iOffset.iX, shape.iAnchor.iY + shape.iSize.iHeight - collisionIndicatorSize - camera.iOffset.iY, shape.iSize.iWidth, collisionIndicatorSize, this.iRectColorColliding );
             }
             if ( this.iCollidingRight  )
             {
-                collisionIndicatorSize = ( this.iCollisionIndicatorSize > rect.iSize.iWidth ? rect.iSize.iWidth : this.iCollisionIndicatorSize );
-                LibDrawing.fillRect( context, rect.iAnchor.iX + rect.iSize.iWidth - collisionIndicatorSize - camera.iOffset.iX, rect.iAnchor.iY - camera.iOffset.iY, collisionIndicatorSize, rect.iSize.iHeight, this.iRectColorColliding );
+                collisionIndicatorSize = ( this.iCollisionIndicatorSize > shape.iSize.iWidth ? shape.iSize.iWidth : this.iCollisionIndicatorSize );
+                LibDrawing.fillRect( context, shape.iAnchor.iX + shape.iSize.iWidth - collisionIndicatorSize - camera.iOffset.iX, shape.iAnchor.iY - camera.iOffset.iY, collisionIndicatorSize, shape.iSize.iHeight, this.iRectColorColliding );
             }
             if ( this.iCollidingTop    )
             {
-                collisionIndicatorSize = ( this.iCollisionIndicatorSize > rect.iSize.iHeight ? rect.iSize.iHeight : this.iCollisionIndicatorSize );
-                LibDrawing.fillRect( context, rect.iAnchor.iX - camera.iOffset.iX, rect.iAnchor.iY - camera.iOffset.iY, rect.iSize.iWidth, collisionIndicatorSize, this.iRectColorColliding );
+                collisionIndicatorSize = ( this.iCollisionIndicatorSize > shape.iSize.iHeight ? shape.iSize.iHeight : this.iCollisionIndicatorSize );
+                LibDrawing.fillRect( context, shape.iAnchor.iX - camera.iOffset.iX, shape.iAnchor.iY - camera.iOffset.iY, shape.iSize.iWidth, collisionIndicatorSize, this.iRectColorColliding );
             }
-
-            //draw rect stroke
-            LibDrawing.strokeRect( context, rect.iAnchor.iX - camera.iOffset.iX, rect.iAnchor.iY - camera.iOffset.iY, rect.iSize.iWidth, rect.iSize.iHeight, this.iRectColorStroke, this.iStrokeSize );
-*/
         }
 
         /*****************************************************************************
@@ -276,7 +318,7 @@
         /*****************************************************************************
          *   Unflags the collision indicators for all directions.
          *****************************************************************************/
-        public unsetCollisionIndicators()
+        public unsetAllCollisionIndicators()
         {
             this.iCollidingLeft   = false;
             this.iCollidingTop    = false;
