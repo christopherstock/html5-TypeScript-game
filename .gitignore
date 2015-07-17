@@ -103,3 +103,4 @@
 /src_lib/de/mayflower/lib/math/geom/LibRect2D.js
 /src_lib/de/mayflower/lib/math/geom/LibRightTriangle2D.js
 /src_lib/de/mayflower/lib/math/geom/LibShape2D.js
+/src_lib/de/mayflower/lib/util/*.js
