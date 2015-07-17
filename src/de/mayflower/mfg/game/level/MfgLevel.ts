@@ -141,6 +141,9 @@
                     this.iWalls.push( new MfgWall( new LibRect2D( 200, 1200, 75,  75 ), MfgCollisionPlan.SOLID_ALL, true,  null ) );
                     this.iWalls.push( new MfgWall( new LibRightTriangle2D( LibRightCorner2D.RIGHT_BOTTOM, 370, 1370, 150,  80 ), MfgCollisionPlan.RELUCTANT, true,  null ) );
 
+                    this.iWalls.push( new MfgWall( new LibRightTriangle2D( LibRightCorner2D.RIGHT_BOTTOM, 520, 1470, 150,  80 ), MfgCollisionPlan.SOLID_ALL, true,  null ) );
+
+
                     break;
                 }
 
